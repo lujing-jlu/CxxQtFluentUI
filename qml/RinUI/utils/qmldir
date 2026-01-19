@@ -1,0 +1,2 @@
+singleton Utils 1.0 Utils.qml
+singleton FontIconLoader 1.0 FontIconLoader.qml

@@ -1,0 +1,25 @@
+singleton NavigationConfig 1.0 NavigationConfig.qml
+NavigationView 1.0 NavigationView.qml
+NavigationBar 1.0 NavigationBar.qml
+NavigationItem 1.0 NavigationItem.qml
+NavigationSubItem 1.0 NavigationSubItem.qml
+Button 1.0 Button.qml
+ToolButton 1.0 ToolButton.qml
+TextField 1.0 TextField.qml
+ComboBox 1.0 ComboBox.qml
+TextArea 1.0 TextArea.qml
+SpinBox 1.0 SpinBox.qml
+CheckBox 1.0 CheckBox.qml
+RadioButton 1.0 RadioButton.qml
+Switch 1.0 Switch.qml
+Slider 1.0 Slider.qml
+ProgressBar 1.0 ProgressBar.qml
+ProgressRing 1.0 ProgressRing.qml
+BusyIndicator 1.0 BusyIndicator.qml
+ContextMenu 1.0 ContextMenu.qml
+Dialog 1.0 Dialog.qml
+Frame 1.0 Frame.qml
+Icon 1.0 Icon.qml
+Indicator 1.0 Indicator.qml
+ToggleButton 1.0 ToggleButton.qml
+ToolTip 1.0 ToolTip.qml

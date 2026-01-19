@@ -140,8 +140,8 @@ Item {
 
                 transform: Rotation {
                     angle: collapsed ? 0 : 180
-                    origin.x: 14
-                    origin.y: 14
+                    origin.x: 7  // Center of 14px icon
+                    origin.y: 7  // Center of 14px icon
                     Behavior on angle { NumberAnimation { duration: Utils.animationSpeed || 250; easing.type: Easing.OutQuint } }
                 }
             }

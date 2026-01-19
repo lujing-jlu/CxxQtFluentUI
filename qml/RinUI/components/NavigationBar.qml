@@ -10,13 +10,14 @@ Item {
 
     property bool collapsed: false
     property var navigationItems: []
-    property bool titleBarEnabled: false  // Disable title bar for now
+    property bool titleBarEnabled: false
     property int expandWidth: 180
     property int minimumExpandWidth: 900
+    property string pagesDirectory: "pages"  // Pages directory
 
     property string windowTitle: ""
-    property string titleText: ""  // For backward compatibility
-    property string baseUrl: ""  // For backward compatibility
+    property string titleText: ""
+    property string baseUrl: ""
     property int windowWidth: minimumExpandWidth
     property var stackView: null
     property string currentPage: ""
@@ -246,8 +247,8 @@ Item {
             var pageUrl
             var cleanPage = page.replace(/^pages\//, "").replace(/\.qml$/, "")
 
-            // Always use the default pages directory
-            pageUrl = Qt.resolvedUrl("../pages/" + cleanPage + ".qml")
+            // Use configured pages directory
+            pageUrl = Qt.resolvedUrl("../" + pagesDirectory + "/" + cleanPage + ".qml")
             var component = Qt.createComponent(pageUrl)
             if (component.status === Component.Ready) {
                 stackView.push(component, properties)

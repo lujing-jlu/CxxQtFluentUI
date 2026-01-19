@@ -8,37 +8,31 @@ TextField {
 
     property bool frameless: false
     property bool editable: true
-    property alias primaryColor: root.color
     property bool clearEnabled: true
+
+    // Fallback colors
+    property color fallbackPrimaryColor: "#0078D4"
+    property color fallbackTextColor: "#1b1b1b"
+    property color fallbackTextSecondaryColor: Qt.alpha("#000000", 0.6)
+    property color fallbackTextTertialyColor: Qt.alpha("#000000", 0.4)
+    property color fallbackTextControlBorderColor: "#8a8a8a"
+    property color fallbackControlColor: "#ffffff"
+    property color fallbackControlSecondaryColor: Qt.alpha("#000000", 0.04)
+    property color fallbackControlInputActiveColor: "#ffffff"
+    property color fallbackControlBorderColor: "#8a8a8a"
 
     selectByMouse: true
     enabled: editable
-
-    readonly property var colors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : QtObject {
-        property color primaryColor: "#0078D4"
-        property color textColor: "#1b1b1b"
-        property color textSecondaryColor: Qt.alpha("#000000", 0.6)
-        property color textTertialyColor: Qt.alpha("#000000", 0.4)
-        property color textControlBorderColor: "#8a8a8a"
-        property color controlColor: "#ffffff"
-        property color controlSecondaryColor: Qt.alpha("#000000", 0.04)
-        property color controlInputActiveColor: "#ffffff"
-        property color controlBorderColor: "#8a8a8a"
-    }
-
-    readonly property var typography: themeManager.currentTheme.item ? themeManager.currentTheme.item.typography : QtObject {
-        property int bodySize: 14
-    }
 
     // Background
     background: Rectangle {
         id: background
         anchors.fill: parent
         radius: 4
-        color: root.frameless ? "transparent" : colors.controlColor
+        color: root.frameless ? "transparent" : controlColor
         clip: true
         border.width: root.activeFocus ? 2 : 1
-        border.color: root.activeFocus ? colors.primaryColor : colors.controlBorderColor
+        border.color: root.activeFocus ? primaryColor : controlBorderColor
 
         // Bottom indicator
         Rectangle {
@@ -48,7 +42,7 @@ TextField {
             anchors.bottom: parent.bottom
             radius: 99
             height: root.activeFocus ? 2 : 1
-            color: root.activeFocus ? colors.primaryColor : colors.textControlBorderColor
+            color: root.activeFocus ? primaryColor : textControlBorderColor
 
             Behavior on color { NumberAnimation { duration: 150; easing.type: Easing.OutQuart } }
             Behavior on height { NumberAnimation { duration: 150; easing.type: Easing.OutQuart } }
@@ -58,15 +52,44 @@ TextField {
     Behavior on opacity { NumberAnimation { duration: 150; easing.type: Easing.OutQuint } }
 
     // Font
-    font.pixelSize: typography.bodySize
+    font.pixelSize: 14
     font.family: Utils.FontIconLoader.fontFamily
-    color: colors.textColor
-    placeholderTextColor: colors.textSecondaryColor
+    color: textColor
+    placeholderTextColor: textSecondaryColor
 
     leftPadding: 12
     rightPadding: (clearEnabled && clearBtn.visible ? 28 : 12)
     topPadding: 6
     bottomPadding: 6
+
+    // Color accessors
+    function getColor(name) {
+        if (themeManager.currentTheme && themeManager.currentTheme && themeManager.currentTheme.colors[name]) {
+            return themeManager.currentTheme.colors[name];
+        }
+        switch(name) {
+            case "primaryColor": return fallbackPrimaryColor;
+            case "textColor": return fallbackTextColor;
+            case "textSecondaryColor": return fallbackTextSecondaryColor;
+            case "textTertialyColor": return fallbackTextTertialyColor;
+            case "textControlBorderColor": return fallbackTextControlBorderColor;
+            case "controlColor": return fallbackControlColor;
+            case "controlSecondaryColor": return fallbackControlSecondaryColor;
+            case "controlInputActiveColor": return fallbackControlInputActiveColor;
+            case "controlBorderColor": return fallbackControlBorderColor;
+            default: return fallbackTextColor;
+        }
+    }
+
+    property color primaryColor: getColor("primaryColor")
+    property color textColor: getColor("textColor")
+    property color textSecondaryColor: getColor("textSecondaryColor")
+    property color textControlBorderColor: getColor("textControlBorderColor")
+    property color controlColor: getColor("controlColor")
+    property color controlSecondaryColor: getColor("controlSecondaryColor")
+    property color controlInputActiveColor: getColor("controlInputActiveColor")
+    property color controlBorderColor: getColor("controlBorderColor")
+    property color textTertialyColor: getColor("textTertialyColor")
 
     // Clear button
     Rin.Button {
@@ -82,12 +105,15 @@ TextField {
         highlighted: true
         visible: clearEnabled && root.text && root.text.length > 0 && root.activeFocus
         onClicked: root.text = ""
-        radius: 4
+
+        background: Rectangle {
+            radius: 4
+        }
 
         contentItem: Rin.Icon {
             name: "ic_fluent_dismiss_20_regular"
             size: 14
-            color: colors.textTertialyColor
+            color: root.textTertialyColor
         }
     }
 
@@ -106,7 +132,7 @@ TextField {
             when: root.activeFocus
             PropertyChanges {
                 target: background;
-                color: colors.controlInputActiveColor
+                color: controlInputActiveColor
             }
         },
         State {
@@ -114,7 +140,7 @@ TextField {
             when: hovered
             PropertyChanges {
                 target: background;
-                color: colors.controlSecondaryColor
+                color: controlSecondaryColor
             }
         }
     ]

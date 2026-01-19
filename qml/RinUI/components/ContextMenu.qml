@@ -14,19 +14,16 @@ Popup {
     property string textRole: ""
     property bool keyboardNavigation: false
 
-    readonly property var colors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : QtObject {
-        property color backgroundAcrylicColor: "#ffffff"
-        property color controlBorderColor: "#8a8a8a"
-        property color subtleColor: "transparent"
-        property color subtleSecondaryColor: Qt.alpha("#000000", 0.06)
-        property color subtleTertiaryColor: Qt.alpha("#000000", 0.12)
-        property color textColor: "#1b1b1b"
-    }
+    // Use direct property access (参考 Rin-UI)
+    property color backgroundAcrylicColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.backgroundAcrylicColor : "#ffffff"
+    property color controlBorderColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlBorderColor : "#8a8a8a"
+    property color subtleColor: "transparent"
+    property color subtleSecondaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.subtleSecondaryColor : Qt.alpha("#000000", 0.06)
+    property color subtleTertiaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.subtleTertiaryColor : Qt.alpha("#000000", 0.12)
+    property color textColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
 
-    readonly property var appearance: themeManager.currentTheme.item ? themeManager.currentTheme.item.appearance : QtObject {
-        property int windowRadius: 8
-        property int buttonRadius: 4
-    }
+    property int windowRadius: themeManager.currentTheme ? themeManager.currentTheme.appearance.windowRadius : 8
+    property int buttonRadius: themeManager.currentTheme ? themeManager.currentTheme.appearance.buttonRadius : 4
 
     implicitWidth: 100
     implicitHeight: Math.min(listView.contentHeight + 6, maximumHeight)
@@ -63,12 +60,12 @@ Popup {
                 anchors.leftMargin: 5
                 anchors.rightMargin: 5
                 anchors.topMargin: 3
-                radius: appearance.buttonRadius
+                radius: contextMenu.buttonRadius
                 color: pressed
-                    ? colors.subtleTertiaryColor
+                    ? subtleTertiaryColor
                     : (highlighted || hovered)
-                        ? colors.subtleSecondaryColor
-                        : colors.subtleColor
+                        ? subtleSecondaryColor
+                        : subtleColor
 
                 Text {
                     id: text
@@ -81,7 +78,7 @@ Popup {
                     font.pixelSize: 14
                     wrapMode: Text.Wrap
                     text: model[contextMenu.parent.textRole]
-                    color: colors.textColor
+                    color: textColor
                 }
 
                 Rin.Indicator {
@@ -116,9 +113,9 @@ Popup {
     background: Rectangle {
         id: background
         anchors.fill: parent
-        radius: appearance.windowRadius
-        color: colors.backgroundAcrylicColor
-        border.color: colors.controlBorderColor
+        radius: contextMenu.windowRadius
+        color: backgroundAcrylicColor
+        border.color: controlBorderColor
     }
 
     enter: Transition {

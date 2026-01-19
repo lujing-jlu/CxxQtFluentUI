@@ -5,17 +5,16 @@ import "../utils" as Utils
 ProgressBar {
     id: root
 
-    readonly property var colors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : QtObject {
-        property color primaryColor: "#0078D4"
-        property color controlBorderStrongColor: "#8a8a8a"
-        property color systemCautionColor: "#FFB900"
-        property color systemCriticalColor: "#D13438"
-    }
+    // Use direct property access (参考 Rin-UI)
+    property color themePrimaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.primaryColor : "#0078D4"
+    property color themeControlBorderStrongColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlBorderStrongColor : "#8a8a8a"
+    property color themeSystemCautionColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.systemCautionColor : "#FFB900"
+    property color themeSystemCriticalColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.systemCriticalColor : "#D13438"
 
     property color backgroundColor: indeterminate
         ? "transparent"
-        : colors.controlBorderStrongColor
-    property color primaryColor: colors.primaryColor
+        : themeControlBorderStrongColor
+    property color primaryColor: themePrimaryColor
     property int radius: 99
     property int state: ProgressBar.Running
 
@@ -47,8 +46,8 @@ ProgressBar {
             id: indicator
             height: parent.height
             radius: root.radius
-            color: root.state === ProgressBar.Paused ? colors.systemCautionColor :
-                   root.state === ProgressBar.Error ? colors.systemCriticalColor :
+            color: root.state === ProgressBar.Paused ? themeSystemCautionColor :
+                   root.state === ProgressBar.Error ? themeSystemCriticalColor :
                    root.primaryColor
 
             width: root.indeterminate

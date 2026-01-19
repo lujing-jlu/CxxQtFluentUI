@@ -6,8 +6,8 @@ import "../utils"
 RadioButton {
     id: root
 
-    readonly property var themeColors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : null
-    readonly property var themeAppearance: themeManager.currentTheme.item ? themeManager.currentTheme.item.appearance : null
+    property var themeColors: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors : null
+    property var themeAppearance: themeManager.currentTheme ? themeManager.currentTheme.appearance : null
 
     property color primaryColor: themeColors ? themeColors.primaryColor : "#0078D4"
     property color backgroundColor: themeColors ? themeColors.controlSecondaryColor : Qt.alpha("#F9F9F9", 0.5)

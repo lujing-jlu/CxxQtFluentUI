@@ -6,8 +6,8 @@ import "../components" as Rin
 Item {
     id: root
 
-    readonly property var colors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : null
-    readonly property var typography: themeManager.currentTheme.item ? themeManager.currentTheme.item.typography : null
+    property var colors: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors : null
+    property var typography: themeManager.currentTheme ? themeManager.currentTheme.typography : null
 
     property string title: qsTr("Home")
 

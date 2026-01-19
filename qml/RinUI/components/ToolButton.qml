@@ -11,22 +11,23 @@ Button {
     property alias iconColor: icon.color
     property bool hoverable: true
 
-    readonly property var colors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : QtObject {
-        property color textAccentColor: "#0078D4"
-        property color textColor: "#1b1b1b"
-    }
+    property color textAccentColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textAccentColor : "#0078D4"
+    property color textColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
 
     property bool isIconOnly: !toolBtn.text && icon.name
 
+    implicitWidth: isIconOnly ? 36 : Math.max(36, btnText.contentWidth + 24)
+    implicitHeight: 36
+
     contentItem: Item {
-        width: parent.width
-        height: parent.height
+        implicitWidth: toolBtn.implicitWidth
+        implicitHeight: toolBtn.implicitHeight
 
         Rin.Icon {
             id: icon
             anchors.centerIn: parent
             size: 20
-            color: toolBtn.enabled ? (toolBtn.highlighted ? colors.textAccentColor : colors.textColor) : Qt.alpha(colors.textColor, 0.4)
+            color: toolBtn.enabled ? (toolBtn.highlighted ? textAccentColor : textColor) : Qt.alpha(textColor, 0.4)
             visible: icon.name !== ""
         }
 
@@ -35,7 +36,7 @@ Button {
             anchors.centerIn: parent
             text: toolBtn.text
             font.pixelSize: 14
-            color: toolBtn.enabled ? (toolBtn.highlighted ? colors.textAccentColor : colors.textColor) : Qt.alpha(colors.textColor, 0.4)
+            color: toolBtn.enabled ? (toolBtn.highlighted ? textAccentColor : textColor) : Qt.alpha(textColor, 0.4)
             visible: toolBtn.text !== ""
         }
     }

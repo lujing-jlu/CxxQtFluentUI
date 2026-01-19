@@ -5,12 +5,12 @@ import "../themes"
 QtObject {
     id: root
 
-    readonly property var themeColors: Theme.currentTheme !== null && Theme.currentTheme !== undefined
+    property var themeColors: Theme.currentTheme !== null && Theme.currentTheme !== undefined
     ? Theme.currentTheme.appearance
     : undefined
 
     // JS Proxy 模拟动态属性访问
-    readonly property var proxy: (function() {
+    property var proxy: (function() {
         if (typeof Proxy === "undefined") {
             console.warn("Proxy is not supported in this QML environment.")
             return {}

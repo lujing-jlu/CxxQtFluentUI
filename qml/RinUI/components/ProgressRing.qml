@@ -6,11 +6,9 @@ import "../components" as Rin
 QQC.ProgressBar {
     id: root
 
-    readonly property var colors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : QtObject {
-        property color primaryColor: "#0078D4"
-        property color systemCautionColor: "#FFB900"
-        property color systemCriticalColor: "#D13438"
-    }
+    property color themePrimaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.primaryColor : "#0078D4"
+    property color themeSystemCautionColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.systemCautionColor : "#FFB900"
+    property color themeSystemCriticalColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.systemCriticalColor : "#D13438"
 
     property int state: ProgressRing.Running
 
@@ -28,12 +26,12 @@ QQC.ProgressBar {
     property real radius: (Math.min(width, height) - strokeWidth) / 2
 
     property color backgroundColor: "transparent"
-    property color primaryColor: colors.primaryColor
+    property color primaryColor: themePrimaryColor
 
     property color _ringColor: state === ProgressRing.Paused
-        ? colors.systemCautionColor
+        ? themeSystemCautionColor
         : state === ProgressRing.Error
-        ? colors.systemCriticalColor
+        ? themeSystemCriticalColor
         : primaryColor
 
     property real _progress: (to - from) === 0

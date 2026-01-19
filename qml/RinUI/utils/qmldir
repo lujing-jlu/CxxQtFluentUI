@@ -1,2 +1,5 @@
 singleton Utils 1.0 Utils.qml
 singleton FontIconLoader 1.0 FontIconLoader.qml
+singleton Animation 1.0 Animation.qml
+singleton Position 1.0 Position.qml
+singleton Typography 1.0 Typography.qml

@@ -15,7 +15,7 @@ QtObject {
     property string primaryColor: "#0078D4"
 
     // Get current theme colors object
-    readonly property var currentTheme: themeMode === light ? lightTheme : darkTheme
+    property var currentTheme: themeMode === light ? lightTheme : darkTheme
 
     // Get current theme name
     readonly property string themeName: themeMode === light ? "Light" : "Dark"
@@ -24,13 +24,13 @@ QtObject {
     readonly property bool isDark: themeMode === dark
 
     // Load light theme from QML file
-    readonly property var lightTheme: Loader {
+    property var lightTheme: Loader {
         asynchronous: false
         source: "light.qml"
     }
 
     // Load dark theme from QML file
-    readonly property var darkTheme: Loader {
+    property var darkTheme: Loader {
         asynchronous: false
         source: "dark.qml"
     }

@@ -8,8 +8,8 @@ Item {
 
     required property Item control
 
-    readonly property var themeColors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : null
-    readonly property var themeAppearance: themeManager.currentTheme.item ? themeManager.currentTheme.item.appearance : null
+    property var themeColors: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors : null
+    property var themeAppearance: themeManager.currentTheme ? themeManager.currentTheme.appearance : null
 
     readonly property real radius: themeAppearance ? themeAppearance.buttonRadius : 5
     readonly property color focusBorderOuter: themeColors ? themeColors.focusBorderOuter : Qt.alpha("#000000", 0.8956)

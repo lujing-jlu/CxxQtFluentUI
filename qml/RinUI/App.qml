@@ -16,162 +16,140 @@ Window {
     minimumHeight: 600
     title: qsTr("CxxQt FluentUI")
 
-    // Access theme manager singleton
-    readonly property var themeManager: Themes.ThemeManager
-    // Load font icon loader to ensure font is loaded
-    readonly property var fontIconLoader: Utils.FontIconLoader
-    property int currentPageIndex: 0
+    property var themeManager: Themes.ThemeManager
+    property var fontIconLoader: Utils.FontIconLoader
 
-    // Main content - toolbar + sidebar + content area
-    ColumnLayout {
-        anchors.fill: parent
-        spacing: 0
-
-        // Top toolbar with theme toggle
-        Rectangle {
-            Layout.fillWidth: true
-            height: 48
-            color: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.backgroundColor : "#F3F3F3"
-
-            Row {
-                anchors.right: parent.right
-                anchors.rightMargin: 12
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 8
-
-                Rin.Button {
-                    text: themeManager.isDark ? "" : ""
-                    isFlat: true
-                    onClicked: themeManager.toggleTheme()
-                    Rin.Icon {
-                        anchors.centerIn: parent
-                        name: themeManager.isDark ? "ic_fluent_moon_20_regular" : "ic_fluent_weather_sunny_20_regular"
-                        size: 16
-                        color: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.textColor : "#1b1b1b"
-                    }
-                }
-            }
-
-            Text {
-                anchors.left: parent.left
-                anchors.leftMargin: 16
-                anchors.verticalCenter: parent.verticalCenter
-                text: currentPageIndex === 0 ? qsTr("Home") :
-                      currentPageIndex === 1 ? qsTr("Buttons") :
-                      currentPageIndex === 2 ? qsTr("Inputs") : qsTr("Settings")
-                font.pixelSize: 16
-                font.bold: true
-                color: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.textColor : "#1b1b1b"
-            }
+    // Navigation items configuration
+    property var navigationItems: [
+        {
+            title: qsTr("Home"),
+            page: "pages/HomePage.qml",
+            icon: "ic_fluent_home_20_regular"
+        },
+        {
+            title: qsTr("Buttons"),
+            page: "pages/ButtonsPage.qml",
+            icon: "ic_fluent_button_20_regular"
+        },
+        {
+            title: qsTr("Inputs"),
+            page: "pages/InputsPage.qml",
+            icon: "ic_fluent_textbox_20_regular",
+            subItems: [
+                { title: qsTr("TextField"), page: "pages/TextFieldPage.qml" },
+                { title: qsTr("ComboBox"), page: "pages/ComboBoxPage.qml" },
+                { title: qsTr("TextArea"), page: "pages/TextAreaPage.qml" },
+                { title: qsTr("SpinBox"), page: "pages/SpinBoxPage.qml" }
+            ]
+        },
+        {
+            title: qsTr("Indicators"),
+            page: "pages/IndicatorsPage.qml",
+            icon: "ic_fluent_progress_circle_20_regular",
+            subItems: [
+                { title: qsTr("ProgressBar"), page: "pages/ProgressPage.qml" },
+                { title: qsTr("BusyIndicator"), page: "pages/BusyPage.qml" }
+            ]
+        },
+        {
+            title: qsTr("Settings"),
+            page: "pages/SettingsPage.qml",
+            icon: "ic_fluent_settings_20_regular"
         }
+    ]
 
-        // Sidebar and content area
+    Rectangle {
+        anchors.fill: parent
+        color: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.backgroundColor : "#F3F3F3"
+
         RowLayout {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+            anchors.fill: parent
             spacing: 0
 
-            // Sidebar navigation
-            Rectangle {
-                Layout.preferredWidth: 220
+            // Navigation sidebar
+            Rin.NavigationBar {
+                id: navigationBar
                 Layout.fillHeight: true
-                color: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.cardColor : "#ffffff"
+                navigationItems: window.navigationItems
+                collapsed: false
+                titleText: "CxxQt FluentUI"
+                // Don't set baseUrl - use default pages directory
 
-                ColumnLayout {
-                    anchors.fill: parent
-                    anchors.margins: 8
-                    spacing: 4
-
-                    // Navigation items
-                    Repeater {
-                        model: ListModel {
-                            ListElement { title: "Home"; page: "HomePage.qml"; icon: "ic_fluent_home_20_regular" }
-                            ListElement { title: "Buttons"; page: "ButtonsPage.qml"; icon: "ic_fluent_button_20_regular" }
-                            ListElement { title: "Inputs"; page: "InputsPage.qml"; icon: "ic_fluent_textbox_20_regular" }
-                            ListElement { title: "Settings"; page: "SettingsPage.qml"; icon: "ic_fluent_settings_20_regular" }
-                        }
-                        delegate: Rectangle {
-                            width: parent.width - 16
-                            height: 40
-                            radius: 6
-                            color: currentPageIndex === index
-                                ? (themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.primaryColor : "#0078D4")
-                                : "transparent"
-
-                            Row {
-                                anchors.fill: parent
-                                anchors.leftMargin: 12
-                                spacing: 8
-                                anchors.verticalCenter: parent.verticalCenter
-
-                                Rin.Icon {
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    name: model.icon
-                                    size: 16
-                                    color: currentPageIndex === index
-                                        ? "#ffffff"
-                                        : (themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.textColor : "#1b1b1b")
-                                }
-
-                                Text {
-                                    text: model.title
-                                    font.pixelSize: 14
-                                    color: currentPageIndex === index
-                                        ? "#ffffff"
-                                        : (themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.textColor : "#1b1b1b")
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    currentPageIndex = index
-                                }
-                            }
-                        }
-                    }
-
-                    Item {
-                        Layout.fillHeight: true
-                    }
+                onPageChanged: function(page) {
+                    var pageTitle = page.charAt(0).toUpperCase() + page.slice(1);
+                    if (page === "homepage") window.title = qsTr("CxxQt FluentUI - Home");
+                    else window.title = qsTr("CxxQt FluentUI - ") + pageTitle;
                 }
             }
 
-            // Main content area (page view)
-            Rectangle {
+            // Main content area with StackView
+            StackView {
+                id: mainStackView
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                color: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.backgroundColor : "#F3F3F3"
+                initialItem: Pages.HomePage {}
 
-                StackView {
-                    id: mainView
-                    anchors.fill: parent
-                    initialItem: Pages.HomePage {}
-
-                    onCurrentItemChanged: {
-                        // Update page title when item changes
+                // Simple show/hide transitions (无动画)
+                pushEnter: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 0
+                    }
+                }
+                pushExit: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 1
+                        to: 0
+                        duration: 0
+                    }
+                }
+                popEnter: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 0
+                    }
+                }
+                popExit: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 1
+                        to: 0
+                        duration: 0
                     }
                 }
             }
         }
     }
 
-    // Page switching
-    onCurrentPageIndexChanged: {
-        switch(currentPageIndex) {
-        case 0:
-            mainView.replace(null, Qt.resolvedUrl("pages/HomePage.qml"));
-            break;
-        case 1:
-            mainView.replace(null, Qt.resolvedUrl("pages/ButtonsPage.qml"));
-            break;
-        case 2:
-            mainView.replace(null, Qt.resolvedUrl("pages/InputsPage.qml"));
-            break;
-        case 3:
-            mainView.replace(null, Qt.resolvedUrl("pages/SettingsPage.qml"));
-            break;
+    // Theme toggle button (floating)
+    Rin.ToolButton {
+        anchors.top: parent.top
+        anchors.topMargin: 12
+        anchors.right: parent.right
+        anchors.rightMargin: 12
+        width: 36
+        height: 36
+        flat: true
+        iconName: themeManager.isDark ? "ic_fluent_moon_20_regular" : "ic_fluent_weather_sunny_20_regular"
+        iconSize: 16
+        onClicked: themeManager.toggleTheme()
+
+        ToolTip {
+            visible: parent.hovered
+            delay: 500
+            text: themeManager.isDark ? qsTr("Switch to Light Mode") : qsTr("Switch to Dark Mode")
         }
+    }
+
+    Component.onCompleted: {
+        // Pass the StackView to NavigationBar
+        navigationBar.stackView = mainStackView
+        // Initialize with home page
+        navigationBar.push("pages/HomePage.qml")
     }
 }

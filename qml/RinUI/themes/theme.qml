@@ -5,15 +5,15 @@ Item {
     id: themeManager
 
     property var currentTheme: null
-    readonly property var mode: ({
+    property var mode: ({
         Light: "Light",
         Dark: "Dark",
         Auto: "Auto"
     })
-    readonly property var light: Qt.createQmlObject("import '../themes'; Light {}", themeManager)
-    readonly property var dark: Qt.createQmlObject("import '../themes'; Dark {}", themeManager)
+    property var light: Qt.createQmlObject("import '../themes'; Light {}", themeManager)
+    property var dark: Qt.createQmlObject("import '../themes'; Dark {}", themeManager)
 
-    readonly property var effect: ({
+    property var effect: ({
         Mica: "mica",
         Acrylic: "acrylic",
         Tabbed: "tabbed",

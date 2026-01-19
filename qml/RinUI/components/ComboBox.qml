@@ -6,21 +6,18 @@ import "../components" as Rin
 ComboBox {
     id: root
 
-    readonly property var colors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : QtObject {
-        property color primaryColor: "#0078D4"
-        property color controlColor: "#ffffff"
-        property color controlBorderColor: "#8a8a8a"
-        property color controlBottomBorderColor: "#8a8a8a"
-        property color controlSecondaryColor: Qt.alpha("#000000", 0.04)
-        property color controlTertiaryColor: Qt.alpha("#000000", 0.08)
-        property color textColor: "#1b1b1b"
-        property color textSecondaryColor: Qt.alpha("#000000", 0.6)
-    }
+    // Use theme colors directly (参考 Rin-UI)
+    property color primaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.primaryColor : "#0078D4"
+    property color controlColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlColor : "#ffffff"
+    property color controlBorderColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlBorderColor : "#8a8a8a"
+    property color controlBottomBorderColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlBottomBorderColor : "#8a8a8a"
+    property color controlSecondaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlSecondaryColor : Qt.alpha("#000000", 0.04)
+    property color controlTertiaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlTertiaryColor : Qt.alpha("#000000", 0.08)
+    property color textColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
+    property color textSecondaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textSecondaryColor : Qt.alpha("#000000", 0.6)
 
-    readonly property var appearance: themeManager.currentTheme.item ? themeManager.currentTheme.item.appearance : QtObject {
-        property int buttonRadius: 4
-        property int borderWidth: 1
-    }
+    property int buttonRadius: themeManager.currentTheme ? themeManager.currentTheme.appearance.buttonRadius : 4
+    property int borderWidth: themeManager.currentTheme ? themeManager.currentTheme.appearance.borderWidth : 1
 
     property string placeholderText: ""
     property alias maximumHeight: menu.maximumHeight
@@ -41,10 +38,10 @@ ComboBox {
     background: Rectangle {
         id: background
         anchors.fill: parent
-        color: colors.controlColor
-        radius: appearance.buttonRadius
-        border.width: appearance.borderWidth
-        border.color: colors.controlBorderColor
+        color: root.controlColor
+        radius: root.buttonRadius
+        border.width: root.borderWidth
+        border.color: root.controlBorderColor
 
         // Bottom border indicator
         Rectangle {
@@ -52,8 +49,8 @@ ComboBox {
             width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
-            height: appearance.borderWidth
-            color: colors.controlBottomBorderColor
+            height: root.borderWidth
+            color: root.controlBottomBorderColor
         }
 
         Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutQuart } }
@@ -69,9 +66,9 @@ ComboBox {
         anchors.right: parent.right
         anchors.margins: 4
         anchors.verticalCenter: parent.verticalCenter
-        icon.name: "ic_fluent_chevron_down_20_regular"
-        size: 14
-        color: colors.textSecondaryColor
+        iconName: "ic_fluent_chevron_down_20_regular"
+        iconSize: 14
+        iconColor: root.textSecondaryColor
         hoverable: editable
 
         onClicked: menu.open()
@@ -87,9 +84,9 @@ ComboBox {
         anchors.right: dropIndicator.left
         anchors.rightMargin: 4
         anchors.verticalCenter: parent.verticalCenter
-        icon.name: "ic_fluent_dismiss_20_regular"
-        size: 14
-        color: colors.textSecondaryColor
+        iconName: "ic_fluent_dismiss_20_regular"
+        iconSize: 14
+        iconColor: root.textSecondaryColor
         hoverable: root.editable
         visible: root.editable && root.displayText.length > 0
 
@@ -145,7 +142,7 @@ ComboBox {
             when: pressed
             PropertyChanges {
                 target: background;
-                color: colors.controlTertiaryColor
+                color: root.controlTertiaryColor
             }
         },
         State {
@@ -154,7 +151,7 @@ ComboBox {
             PropertyChanges {
                 target: background;
                 opacity: 1
-                color: colors.controlSecondaryColor
+                color: root.controlSecondaryColor
             }
         }
     ]

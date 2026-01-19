@@ -6,24 +6,24 @@ import "../utils"
 Button {
     id: root
 
-    property color primaryColor: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.primaryColor : "#0078D4"
-    property color textColor: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.textColor : "#1b1b1b"
+    property color primaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.primaryColor : "#0078D4"
+    property color textColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
     property bool isPrimary: false
     property bool isFlat: false
 
     readonly property color backgroundColor: isFlat
         ? "transparent"
-        : (isPrimary ? primaryColor : (themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.controlColor : "#ffffff"))
+        : (isPrimary ? primaryColor : (themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlColor : "#ffffff"))
 
     readonly property color hoverColor: !isPrimary && !isFlat
-        ? (themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.controlSecondaryColor : "#F9F9F9")
+        ? (themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlSecondaryColor : "#F9F9F9")
         : backgroundColor
 
     readonly property color borderColor: isFlat
         ? "transparent"
-        : (enabled ? (isPrimary ? primaryColor : (themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.controlBorderColor : "#000000")) : "#000000")
+        : (enabled ? (isPrimary ? primaryColor : (themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlBorderColor : "#000000")) : "#000000")
 
-    readonly property real buttonRadius: themeManager.currentTheme.item ? themeManager.currentTheme.item.appearance.buttonRadius : 5
+    readonly property real buttonRadius: themeManager.currentTheme ? themeManager.currentTheme.appearance.buttonRadius : 5
 
     font.pixelSize: 14
     icon.width: font.pixelSize * 1.2
@@ -47,8 +47,8 @@ Button {
     contentItem: Text {
         text: root.text
         color: {
-            if (!enabled) return themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.disabledColor : "#000000"
-            if (isPrimary && !isFlat) return themeManager.currentTheme.item ? themeManager.currentTheme.item.colors.textOnAccentColor : "#ffffff"
+            if (!enabled) return themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.disabledColor : "#000000"
+            if (isPrimary && !isFlat) return themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textOnAccentColor : "#ffffff"
             if (isPrimary && isFlat) return primaryColor
             return root.textColor
         }

@@ -6,8 +6,8 @@ import "../components" as Rin
 Item {
     id: root
 
-    readonly property var colors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : null
-    readonly property var typography: themeManager.currentTheme.item ? themeManager.currentTheme.item.typography : null
+    property var colors: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors : null
+    property var typography: themeManager.currentTheme ? themeManager.currentTheme.typography : null
 
     property string title: qsTr("Input Controls")
 
@@ -198,7 +198,6 @@ Item {
 
                 Column {
                     spacing: 4
-                    horizontalAlignment: Qt.AlignHCenter
 
                     Text {
                         text: qsTr("Determinate")
@@ -214,7 +213,6 @@ Item {
 
                 Column {
                     spacing: 4
-                    horizontalAlignment: Qt.AlignHCenter
 
                     Text {
                         text: qsTr("Indeterminate")
@@ -230,7 +228,6 @@ Item {
 
                 Column {
                     spacing: 4
-                    horizontalAlignment: Qt.AlignHCenter
 
                     Text {
                         text: qsTr("Small")
@@ -246,7 +243,6 @@ Item {
 
                 Column {
                     spacing: 4
-                    horizontalAlignment: Qt.AlignHCenter
 
                     Text {
                         text: qsTr("Paused")
@@ -263,7 +259,6 @@ Item {
 
                 Column {
                     spacing: 4
-                    horizontalAlignment: Qt.AlignHCenter
 
                     Text {
                         text: qsTr("Error")
@@ -398,7 +393,6 @@ Item {
                     from: 0
                     to: 100
                     value: 50
-                    label: qsTr("Default: ") + Math.round(value)
                 }
 
                 Rin.Slider {
@@ -407,7 +401,6 @@ Item {
                     to: 100
                     value: 75
                     enabled: false
-                    label: qsTr("Disabled")
                 }
             }
 

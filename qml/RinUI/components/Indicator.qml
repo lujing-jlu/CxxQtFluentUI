@@ -5,9 +5,7 @@ import "../themes"
 Rectangle {
     id: indicator
 
-    readonly property var colors: themeManager.currentTheme.item ? themeManager.currentTheme.item.colors : QtObject {
-        property color primaryColor: "#0078D4"
-    }
+    property color primaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.primaryColor : "#0078D4"
 
     property int currentItemHeight: 38
     property var orientation: Qt.Vertical
@@ -15,7 +13,7 @@ Rectangle {
     implicitWidth: orientation === Qt.Horizontal ? 16 : 3
     implicitHeight: orientation === Qt.Horizontal ? 3 : currentItemHeight - 23
     radius: 10
-    color: colors.primaryColor
+    color: primaryColor
 
     y: orientation === Qt.Horizontal ? parent.height - height : (parent.height - height) / 2
     x: orientation === Qt.Horizontal ? (parent.width - width) / 2 : 0
@@ -34,7 +32,7 @@ Rectangle {
             property: "opacity"
             from: 0.0
             to: 1.0
-            duration: Utils.animationSpeed
+            duration: 100
             easing.type: Easing.OutQuad
         }
         ScriptAction {
@@ -56,7 +54,7 @@ Rectangle {
             property: "height"
             from: 0
             to: indicator.implicitHeight
-            duration: Utils.animationSpeedMiddle
+            duration: 150
             easing.type: Easing.OutQuint
         }
 
@@ -65,7 +63,7 @@ Rectangle {
             property: "y"
             from: parent.height / 2
             to: (parent.height - indicator.implicitHeight) / 2
-            duration: Utils.animationSpeedMiddle
+            duration: 150
             easing.type: Easing.OutQuint
         }
     }
@@ -78,7 +76,7 @@ Rectangle {
             property: "width"
             from: 0
             to: indicator.implicitWidth
-            duration: Utils.animationSpeedMiddle
+            duration: 150
             easing.type: Easing.OutQuint
         }
 
@@ -87,7 +85,7 @@ Rectangle {
             property: "x"
             from: parent.width / 2
             to: (parent.width - indicator.implicitWidth) / 2
-            duration: Utils.animationSpeedMiddle
+            duration: 150
             easing.type: Easing.OutQuint
         }
     }

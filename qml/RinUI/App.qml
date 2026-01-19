@@ -36,10 +36,10 @@ Window {
             page: "pages/InputsPage.qml",
             icon: "ic_fluent_textbox_20_regular",
             subItems: [
-                { title: qsTr("TextField"), page: "pages/TextFieldPage.qml" },
-                { title: qsTr("ComboBox"), page: "pages/ComboBoxPage.qml" },
-                { title: qsTr("TextArea"), page: "pages/TextAreaPage.qml" },
-                { title: qsTr("SpinBox"), page: "pages/SpinBoxPage.qml" }
+                { title: qsTr("TextField"), page: "pages/TextFieldPage.qml", icon: "ic_fluent_text_field_20_regular" },
+                { title: qsTr("ComboBox"), page: "pages/ComboBoxPage.qml", icon: "ic_fluent_chevron_down_20_regular" },
+                { title: qsTr("TextArea"), page: "pages/TextAreaPage.qml", icon: "ic_fluent_note_20_regular" },
+                { title: qsTr("SpinBox"), page: "pages/SpinBoxPage.qml", icon: "ic_fluent_arrow_sort_20_regular" }
             ]
         },
         {
@@ -47,8 +47,8 @@ Window {
             page: "pages/IndicatorsPage.qml",
             icon: "ic_fluent_progress_circle_20_regular",
             subItems: [
-                { title: qsTr("ProgressBar"), page: "pages/ProgressPage.qml" },
-                { title: qsTr("BusyIndicator"), page: "pages/BusyPage.qml" }
+                { title: qsTr("ProgressBar"), page: "pages/ProgressPage.qml", icon: "ic_fluent_circle_20_regular" },
+                { title: qsTr("BusyIndicator"), page: "pages/BusyPage.qml", icon: "ic_fluent_spinner_off_20_regular" }
             ]
         },
         {

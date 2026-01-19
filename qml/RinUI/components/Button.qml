@@ -23,7 +23,7 @@ Button {
         ? "transparent"
         : (enabled ? (isPrimary ? primaryColor : (themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlBorderColor : "#000000")) : "#000000")
 
-    readonly property real buttonRadius: themeManager.currentTheme ? themeManager.currentTheme.appearance.buttonRadius : 5
+    readonly property real buttonRadius: (themeManager.currentTheme && themeManager.currentTheme.appearance) ? themeManager.currentTheme.appearance.buttonRadius : 5
 
     font.pixelSize: 14
     icon.width: font.pixelSize * 1.2

@@ -33,7 +33,7 @@ Item {
     width: parent ? parent.width : 200
 
     Behavior on height {
-        NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint }
+        NumberAnimation { duration: Utils.animationSpeed || 250; easing.type: Easing.OutQuint }
     }
 
     // Auto-collapse sub menus when nav bar collapses
@@ -48,25 +48,18 @@ Item {
         width: parent.width
         height: 38
         flat: true
+        leftPadding: 10  // Match collapse button icon position (centered at 20 in 40px width)
+        rightPadding: 10
 
         contentItem: Item {
-            // Content container that shifts based on collapsed state
+            // Content container - icon stays at same position, only text fades in/out
             Item {
                 id: contentContainer
                 anchors.left: parent.left
-                anchors.leftMargin: navBarCollapsed ? (parent.width - 24) / 2 : 11
+                anchors.leftMargin: 0  // Icon position (all the way to the left)
                 anchors.verticalCenter: parent.verticalCenter
-                width: icon.width + (navBarCollapsed ? 0 : text.width + spacing + (expandBtn.visible ? expandBtn.width + 8 : 0))
+                width: parent.width - 11
                 height: 24
-
-                Behavior on anchors.leftMargin {
-                    NumberAnimation {
-                        duration: Utils.animationSpeed
-                        easing.type: Easing.OutQuint
-                    }
-                }
-
-                property int spacing: 16
 
                 Rin.Icon {
                     id: icon
@@ -82,7 +75,7 @@ Item {
                 Text {
                     id: text
                     anchors.left: icon.right
-                    anchors.leftMargin: contentContainer.spacing
+                    anchors.leftMargin: 16
                     anchors.verticalCenter: parent.verticalCenter
                     text: itemData.title || ""
                     font.pixelSize: 14
@@ -93,7 +86,7 @@ Item {
                     visible: opacity > 0
 
                     Behavior on opacity {
-                        NumberAnimation { duration: Utils.appearanceSpeed }
+                        NumberAnimation { duration: Utils.appearanceSpeed || 150 }
                     }
                 }
             }
@@ -149,7 +142,7 @@ Item {
                     angle: collapsed ? 0 : 180
                     origin.x: 14
                     origin.y: 14
-                    Behavior on angle { NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint } }
+                    Behavior on angle { NumberAnimation { duration: Utils.animationSpeed || 250; easing.type: Easing.OutQuint } }
                 }
             }
 
@@ -181,7 +174,7 @@ Item {
         width: parent.width
 
         Behavior on opacity {
-            NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint }
+            NumberAnimation { duration: Utils.animationSpeed || 250; easing.type: Easing.OutQuint }
         }
 
         Repeater {

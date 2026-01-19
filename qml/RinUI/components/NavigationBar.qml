@@ -11,7 +11,7 @@ Item {
     property bool collapsed: false
     property var navigationItems: []
     property bool titleBarEnabled: false  // Disable title bar for now
-    property int expandWidth: 280
+    property int expandWidth: 180
     property int minimumExpandWidth: 900
 
     property string windowTitle: ""
@@ -31,7 +31,7 @@ Item {
         return windowWidth < minimumExpandWidth;
     }
 
-    width: collapsed ? 48 : expandWidth
+    width: collapsed ? 40 : expandWidth
 
     Behavior on width {
         NumberAnimation {
@@ -57,12 +57,12 @@ Item {
     Rin.ToolButton {
         id: collapseButton
         anchors.left: parent.left
-        anchors.right: parent.right
         anchors.top: parent.top
-        height: 48
+        width: 40
+        height: 38
         flat: true
         iconName: "ic_fluent_navigation_20_regular"
-        iconSize: 20
+        iconSize: 19
         onClicked: {
             collapsed = !collapsed
             collapsedByAutoResize = false
@@ -101,7 +101,7 @@ Item {
         anchors.right: parent.right
         anchors.top: collapseButton.bottom
         anchors.topMargin: 4
-        height: getTopItems().length > 0 ? Math.min(topNavigationColumn.implicitHeight, (parent.height - 52) * 0.2) : 0
+        height: getTopItems().length > 0 ? Math.min(topNavigationColumn.implicitHeight, ((navigationBar.height || 600) - 52) * 0.2) : 0
         contentWidth: parent.width
         contentHeight: topNavigationColumn.implicitHeight
         clip: true
@@ -195,7 +195,7 @@ Item {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 0
-        height: getBottomItems().length > 0 ? Math.min(bottomNavigationColumn.implicitHeight, (parent.height - 52) * 0.2) : 0
+        height: getBottomItems().length > 0 ? Math.min(bottomNavigationColumn.implicitHeight, ((navigationBar.height || 600) - 52) * 0.2) : 0
         contentWidth: parent.width
         contentHeight: bottomNavigationColumn.implicitHeight
         clip: true
@@ -247,7 +247,7 @@ Item {
             var cleanPage = page.replace(/^pages\//, "").replace(/\.qml$/, "")
 
             // Always use the default pages directory
-            pageUrl = "pages/" + cleanPage + ".qml"
+            pageUrl = Qt.resolvedUrl("../pages/" + cleanPage + ".qml")
             var component = Qt.createComponent(pageUrl)
             if (component.status === Component.Ready) {
                 stackView.push(component, properties)

@@ -45,7 +45,7 @@ Item {
 
         Behavior on color {
             ColorAnimation {
-                duration: Utils.appearanceSpeed
+                duration: Utils.appearanceSpeed || 150
                 easing.type: Easing.InOutQuart
             }
         }

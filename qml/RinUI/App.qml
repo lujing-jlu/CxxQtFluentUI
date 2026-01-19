@@ -70,6 +70,7 @@ Window {
             Rin.NavigationBar {
                 id: navigationBar
                 Layout.fillHeight: true
+                Layout.preferredWidth: width  // Sync width with RowLayout
                 navigationItems: window.navigationItems
                 collapsed: false
                 titleText: "CxxQt FluentUI"

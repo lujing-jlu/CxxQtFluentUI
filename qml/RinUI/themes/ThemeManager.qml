@@ -1,10 +1,11 @@
 pragma Singleton
 import QtQuick 2.15
+import "."
 
 QtObject {
     id: themeManager
 
-    // Theme modes (lowercase for QML compliance)
+    // Theme modes
     readonly property int light: 0
     readonly property int dark: 1
 
@@ -14,39 +15,38 @@ QtObject {
     // Primary color (customizable)
     property string primaryColor: "#0078D4"
 
-    // Get current theme colors object
-    property var currentTheme: themeMode === light ? lightTheme : darkTheme
-
-    // Get current theme name
-    readonly property string themeName: themeMode === light ? "Light" : "Dark"
-
     // Check if dark mode
     readonly property bool isDark: themeMode === dark
 
-    // Load light theme from QML file
-    property var lightTheme: Loader {
-        asynchronous: false
-        source: "light.qml"
-    }
+    // Get current theme colors object - direct load for reliability
+    property var currentTheme: themeMode === light ? lightThemeInstance : darkThemeInstance
 
-    // Load dark theme from QML file
-    property var darkTheme: Loader {
-        asynchronous: false
-        source: "dark.qml"
-    }
+    // Light theme instance
+    property var lightThemeInstance: null
+    property var darkThemeInstance: null
 
-    // Initialize and sync primary color
     Component.onCompleted: {
+        // Create theme instances
+        var lightComponent = Qt.createComponent("light.qml")
+        if (lightComponent.status === Component.Ready) {
+            lightThemeInstance = lightComponent.createObject(themeManager)
+        }
+
+        var darkComponent = Qt.createComponent("dark.qml")
+        if (darkComponent.status === Component.Ready) {
+            darkThemeInstance = darkComponent.createObject(themeManager)
+        }
+
         syncPrimaryColor()
     }
 
     // Sync primary color to themes
     function syncPrimaryColor() {
-        if (lightTheme.item) {
-            lightTheme.item.colors.primaryColor = primaryColor
+        if (lightThemeInstance && lightThemeInstance.colors) {
+            lightThemeInstance.colors.primaryColor = primaryColor
         }
-        if (darkTheme.item) {
-            darkTheme.item.colors.primaryColor = primaryColor
+        if (darkThemeInstance && darkThemeInstance.colors) {
+            darkThemeInstance.colors.primaryColor = primaryColor
         }
     }
 
@@ -66,15 +66,5 @@ QtObject {
     function setPrimaryColor(color) {
         primaryColor = color
         syncPrimaryColor()
-    }
-
-    // Get theme color by name (convenience function)
-    function getColor(category, name) {
-        var theme = currentTheme
-        if (theme && theme.item && theme.item.colors) {
-            var colorPath = category + name
-            return theme.item.colors[colorPath]
-        }
-        return "transparent"
     }
 }

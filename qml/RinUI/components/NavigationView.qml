@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import "../themes"
 import "../utils" as Utils
+import "."
 
 Item {
     id: root
@@ -38,7 +39,7 @@ Item {
             spacing: 0
 
             // Navigation sidebar
-            Rin.NavigationBar {
+            NavigationBar {
                 id: navigationBar
                 Layout.fillHeight: true
                 Layout.preferredWidth: width

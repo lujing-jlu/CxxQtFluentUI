@@ -36,7 +36,7 @@ Item {
 
     Behavior on width {
         NumberAnimation {
-            duration: Utils.animationSpeed
+            duration: 250
             easing.type: Easing.OutQuint
         }
     }

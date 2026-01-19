@@ -16,7 +16,7 @@ ProgressBar {
         : themeControlBorderStrongColor
     property color primaryColor: themePrimaryColor
     property int radius: 99
-    property int state: ProgressBar.Running
+    property int state: root.Running
 
     enum State {
         Running,

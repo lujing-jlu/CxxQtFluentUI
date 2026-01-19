@@ -33,7 +33,7 @@ Item {
     width: parent ? parent.width : 200
 
     Behavior on height {
-        NumberAnimation { duration: Utils.animationSpeed || 250; easing.type: Easing.OutQuint }
+        NumberAnimation { duration: 250; easing.type: Easing.OutQuint }
     }
 
     // Auto-collapse sub menus when nav bar collapses
@@ -86,7 +86,7 @@ Item {
                     visible: opacity > 0
 
                     Behavior on opacity {
-                        NumberAnimation { duration: Utils.appearanceSpeed || 150 }
+                        NumberAnimation { duration: 150 }
                     }
                 }
             }
@@ -142,7 +142,7 @@ Item {
                     angle: collapsed ? 0 : 180
                     origin.x: 7  // Center of 14px icon
                     origin.y: 7  // Center of 14px icon
-                    Behavior on angle { NumberAnimation { duration: Utils.animationSpeed || 250; easing.type: Easing.OutQuint } }
+                    Behavior on angle { NumberAnimation { duration: 250; easing.type: Easing.OutQuint } }
                 }
             }
 
@@ -174,7 +174,7 @@ Item {
         width: parent.width
 
         Behavior on opacity {
-            NumberAnimation { duration: Utils.animationSpeed || 250; easing.type: Easing.OutQuint }
+            NumberAnimation { duration: 250; easing.type: Easing.OutQuint }
         }
 
         Repeater {

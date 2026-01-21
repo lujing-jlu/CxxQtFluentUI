@@ -26,7 +26,7 @@ Expander {
 
         RowLayout {
             id: leftContent
-            Layout.maximumWidth: parent.width * 0.6
+            Layout.maximumWidth: Math.max(0, root.width * 0.6)
             spacing: 16
 
             IconWidget {
@@ -48,7 +48,9 @@ Expander {
                     width: parent.width
                     typography: Typography.Caption
                     text: description
-                    color: themeManager.currentTheme.colors.textSecondaryColor
+                    color: themeManager.currentTheme && themeManager.currentTheme.colors
+                        ? themeManager.currentTheme.colors.textSecondaryColor
+                        : "#6c6c6c"
                     wrapMode: Text.Wrap  // 启用换行
                     maximumLineCount: 3
                     elide: Text.ElideRight

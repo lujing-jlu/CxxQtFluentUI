@@ -6,28 +6,25 @@ import "../components" as Rin
 ToolTip {
     id: tooltip
 
-    property var colors: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors : QtObject {
-        property color backgroundAcrylicColor: "#ffffff"
-        property color cardBorderColor: "#e5e5e5"
-        property color textColor: "#1b1b1b"
-    }
-
-    property var appearance: themeManager.currentTheme ? themeManager.currentTheme.appearance : QtObject {
-        property int buttonRadius: 4
-    }
-
-    property var typography: themeManager.currentTheme ? themeManager.currentTheme.typography : QtObject {
-        property int captionSize: 12
-    }
+    property color backgroundColor: themeManager.currentTheme && themeManager.currentTheme.colors
+        ? themeManager.currentTheme.colors.backgroundAcrylicColor : "#ffffff"
+    property color borderColor: themeManager.currentTheme && themeManager.currentTheme.colors
+        ? themeManager.currentTheme.colors.cardBorderColor : "#e5e5e5"
+    property color textColor: themeManager.currentTheme && themeManager.currentTheme.colors
+        ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
+    property int buttonRadius: themeManager.currentTheme && themeManager.currentTheme.appearance
+        ? themeManager.currentTheme.appearance.buttonRadius : 4
+    property int captionSize: themeManager.currentTheme && themeManager.currentTheme.typography
+        ? themeManager.currentTheme.typography.captionSize : 12
 
     timeout: -1
 
     contentItem: Text {
         id: tooltipText
         anchors.centerIn: background
-        font.pixelSize: typography.captionSize
+        font.pixelSize: captionSize
         text: tooltip.text
-        color: colors.textColor
+        color: textColor
     }
 
     background: Rectangle {
@@ -37,9 +34,9 @@ ToolTip {
         anchors.horizontalCenter: parent.horizontalCenter
         y: -6
 
-        radius: appearance.buttonRadius
-        color: colors.backgroundAcrylicColor
-        border.color: colors.cardBorderColor
+        radius: buttonRadius
+        color: backgroundColor
+        border.color: borderColor
         border.width: 1
     }
 

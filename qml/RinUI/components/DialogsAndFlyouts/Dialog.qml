@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
 import "../../themes"
+import "../../utils"
 import "../../components"
 
 
@@ -22,7 +23,7 @@ Dialog {
         spacing: 12
         Text {
             Layout.fillWidth: true
-            typography: Typography.Subtitle
+            font.pixelSize: 20; font.weight: Font.Medium
             text: root.title
         }
     }

@@ -246,9 +246,9 @@ Item {
         id: container
         anchors.fill: parent
         visible: frameVisible
-        color: Theme.currentTheme.colors.cardColor
-        borderColor: Theme.currentTheme.colors.cardBorderColor
-        radius: Theme.currentTheme.appearance.windowRadius
+        color: themeManager.currentTheme.colors.cardColor
+        borderColor: themeManager.currentTheme.colors.cardBorderColor
+        radius: themeManager.currentTheme.appearance.windowRadius
         hoverable: false
     }
 
@@ -259,15 +259,15 @@ Item {
         anchors.top: parent.top
         anchors.margins: 0
         height: navigationBarVisible ? 48 : 0
-        color: Theme.currentTheme.colors.cardSecondaryColor
+        color: themeManager.currentTheme.colors.cardSecondaryColor
 
         // 底部分隔线
         Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            height: Theme.currentTheme.appearance.borderWidth
-            color: Theme.currentTheme.colors.dividerBorderColor
+            height: themeManager.currentTheme.appearance.borderWidth
+            color: themeManager.currentTheme.colors.dividerBorderColor
         }
     }
 
@@ -286,8 +286,8 @@ Item {
             Text {
                 id: headerTitle
                 anchors.verticalCenter: parent.verticalCenter
-                typography: Typography.Body
-                color: Theme.currentTheme.colors.textColor
+                font.pixelSize: 14
+                color: themeManager.currentTheme.colors.textColor
                 text: {
                     const monthName = calendar.locale.monthName(displayMonth - 1)
                     return calendar.viewMode === "day" ? (monthName + " " + displayYear)
@@ -301,8 +301,8 @@ Item {
                 anchors.verticalCenter: headerTitle.verticalCenter
                 width: headerTitle.paintedWidth + 8
                 height: 28
-                radius: Theme.currentTheme.appearance.buttonRadius
-                color: titleMa.enabled && titleMa.containsMouse ? Theme.currentTheme.colors.subtleSecondaryColor : "transparent"
+                radius: themeManager.currentTheme.appearance.buttonRadius
+                color: titleMa.enabled && titleMa.containsMouse ? themeManager.currentTheme.colors.subtleSecondaryColor : "transparent"
                 Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuad } }
             }
             MouseArea {
@@ -350,7 +350,7 @@ Item {
             icon.name: "ic_fluent_caret_up_20_filled"
             Layout.preferredWidth: 40
             Layout.preferredHeight: 40
-            size: 16
+            iconSize: 16
             onClicked: {
                 if (calendar.viewMode === "day") {
                     navigateMonth(-1)
@@ -366,7 +366,7 @@ Item {
             icon.name: "ic_fluent_caret_down_20_filled"
             Layout.preferredWidth: 40
             Layout.preferredHeight: 40
-            size: 16
+            iconSize: 16
             onClicked: {
                 if (calendar.viewMode === "day") {
                     navigateMonth(1)
@@ -397,8 +397,9 @@ Item {
                 height: parent.height
                 Text {
                     anchors.centerIn: parent
-                    typography: Typography.BodyStrong
-                    color: Theme.currentTheme.colors.textColor
+                    font.pixelSize: 14
+                    font.weight: Font.Medium
+                    color: themeManager.currentTheme.colors.textColor
                     text: {
                         var dayNum = dayNumberForIndex(index)
                         var loc = calendar.locale && calendar.locale.name ? calendar.locale.name : ""
@@ -444,8 +445,8 @@ Item {
                         height: gridArea.cellSize
                         Text {
                             anchors.centerIn: parent
-                            typography: Typography.Body
-                            color: Theme.currentTheme.colors.textSecondaryColor
+                            font.pixelSize: 14
+                            color: themeManager.currentTheme.colors.textSecondaryColor
                             text: isoWeek(new Date(calendar.firstCellDate.getFullYear(), calendar.firstCellDate.getMonth(), calendar.firstCellDate.getDate() + index * 7))
                         }
                     }
@@ -501,31 +502,33 @@ Item {
                     columnSpacing: monthsView.spacing
                     Repeater {
                         model: 16
-                        delegate: Item {
-                            width: monthsView.cellSize
-                            height: monthsView.cellSize
-                            property int monthNumber: index < 12 ? (index + 1) : (index - 12 + 1)
-                            property int tileYear: index < 12 ? calendar.displayYear : (calendar.displayYear + 1)
-                            readonly property bool isSelected: calendar.selectedDate !== null && date && calendar.toKey(calendar.selectedDate) === calendar.toKey(date)
-                            property real bgScale: 0.8
-                            Rectangle {
-                                id: mBg
-                                anchors.centerIn: parent
+	                        delegate: Item {
+	                            width: monthsView.cellSize
+	                            height: monthsView.cellSize
+	                            property int monthNumber: index < 12 ? (index + 1) : (index - 12 + 1)
+	                            property int tileYear: index < 12 ? calendar.displayYear : (calendar.displayYear + 1)
+	                            readonly property var date: new Date(tileYear, monthNumber - 1, 1)
+	                            readonly property bool isSelected: calendar.selectedDate !== null
+	                                && calendar.toKey(calendar.selectedDate) === calendar.toKey(date)
+	                            property real bgScale: 0.8
+	                            Rectangle {
+	                                id: mBg
+	                                anchors.centerIn: parent
                                 width: (Math.min(parent.width, parent.height) - 2) * bgScale
                                 height: (Math.min(parent.width, parent.height) - 2) * bgScale
                                 radius: (width + height) / 2
-                                color: isSelected ? Theme.currentTheme.colors.primaryColor
-                                      : (mMa.containsMouse ? Theme.currentTheme.colors.subtleSecondaryColor : "transparent")
+                                color: isSelected ? themeManager.currentTheme.colors.primaryColor
+                                      : (mMa.containsMouse ? themeManager.currentTheme.colors.subtleSecondaryColor : "transparent")
                                 border.color: "transparent"
                                 border.width: 0
                                 Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuad } }
                             }
                             Text {
                                 anchors.centerIn: parent
-                                typography: Typography.Body
-                                color: isSelected ? Theme.currentTheme.colors.textOnAccentColor
-                                      : (tileYear !== calendar.displayYear ? Theme.currentTheme.colors.textSecondaryColor
-                                                                           : Theme.currentTheme.colors.textColor)
+                                font.pixelSize: 14
+                                color: isSelected ? themeManager.currentTheme.colors.textOnAccentColor
+                                      : (tileYear !== calendar.displayYear ? themeManager.currentTheme.colors.textSecondaryColor
+                                                                           : themeManager.currentTheme.colors.textColor)
                                 text: calendar.locale.monthName(monthNumber - 1)
                             }
                             MouseArea {
@@ -576,16 +579,16 @@ Item {
                                 width: (Math.min(parent.width, parent.height) - 2) * bgScale
                                 height: (Math.min(parent.width, parent.height) - 2) * bgScale
                                 radius: (width + height) / 2
-                                color: isSelected ? Theme.currentTheme.colors.primaryColor
-                                      : (yMa.containsMouse ? Theme.currentTheme.colors.subtleSecondaryColor : "transparent")
+                                color: isSelected ? themeManager.currentTheme.colors.primaryColor
+                                      : (yMa.containsMouse ? themeManager.currentTheme.colors.subtleSecondaryColor : "transparent")
                                 border.color: "transparent"
                                 border.width: 0
                                 Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuad } }
                             }
                             Text {
                                 anchors.centerIn: parent
-                                typography: Typography.Body
-                                color: isSelected ? Theme.currentTheme.colors.textOnAccentColor : Theme.currentTheme.colors.textColor
+                                font.pixelSize: 14
+                                color: isSelected ? themeManager.currentTheme.colors.textOnAccentColor : themeManager.currentTheme.colors.textColor
                                 text: year
                             }
                             MouseArea {
@@ -621,12 +624,12 @@ Item {
                 anchors.centerIn: parent
                 radius: (width + height) / 2
                 // 现在 border 的颜色逻辑和原来的 color 逻辑相同
-                border.color: isSelected ? Theme.currentTheme.colors.primaryColor
-                               : inRange(date) ? Qt.alpha(Theme.currentTheme.colors.primaryColor, Theme.isDark() ? 0.12 : 0.18)
+                border.color: isSelected ? themeManager.currentTheme.colors.primaryColor
+                               : inRange(date) ? Qt.alpha(themeManager.currentTheme.colors.primaryColor, 0.18)
                                : "transparent"
                 border.width: 1
-                color: isToday(date) ? Theme.currentTheme.colors.primaryColor
-                    : ma.containsMouse ? Theme.currentTheme.colors.subtleSecondaryColor
+                color: isToday(date) ? themeManager.currentTheme.colors.primaryColor
+                    : ma.containsMouse ? themeManager.currentTheme.colors.subtleSecondaryColor
                     : "transparent"
                 Behavior on color { ColorAnimation { duration: calendar.suppressCellBehavior ? 0 : Utils.animationSpeed; easing.type: Easing.OutQuad } }
 
@@ -640,17 +643,17 @@ Item {
                     radius: (width + height) / 2
                     color: "transparent"
                     border.width: 1
-                    border.color: isSelected ? Theme.currentTheme.colors.cardColor : "transparent"
+                    border.color: isSelected ? themeManager.currentTheme.colors.cardColor : "transparent"
                 }
             }
             Text {
                 anchors.centerIn: parent
-                typography: Typography.Body
-                color: !inMonth ? Theme.currentTheme.colors.textSecondaryColor
-                      : disabled ? Theme.currentTheme.colors.textSecondaryColor
-                      : isToday(date) ? Theme.currentTheme.colors.textOnAccentColor
-                      : isSelected ? Theme.currentTheme.colors.primaryColor
-                      : Theme.currentTheme.colors.textColor
+                font.pixelSize: 14
+                color: !inMonth ? themeManager.currentTheme.colors.textSecondaryColor
+                      : disabled ? themeManager.currentTheme.colors.textSecondaryColor
+                      : isToday(date) ? themeManager.currentTheme.colors.textOnAccentColor
+                      : isSelected ? themeManager.currentTheme.colors.primaryColor
+                      : themeManager.currentTheme.colors.textColor
                 text: date.getDate()
             }
             MouseArea {
@@ -708,7 +711,7 @@ Item {
                 width: Math.min(parent.width, parent.height) - 2
                 height: Math.min(parent.width, parent.height) - 2
                 radius: (width + height) / 2
-                color: disabled ? Qt.alpha(Theme.currentTheme.colors.disabledColor, Theme.isDark() ? 0.1 : 0.06) : "transparent"
+                color: disabled ? Qt.alpha(themeManager.currentTheme.colors.disabledColor, 0.06) : "transparent"
             }
             Rectangle {
                 anchors.centerIn: parent
@@ -718,7 +721,7 @@ Item {
                 color: "transparent"
                 visible: !isSelected && highlighted
                 border.width: highlighted ? 1 : 0
-                border.color: Theme.currentTheme.colors.primaryColor
+                border.color: themeManager.currentTheme.colors.primaryColor
             }
         }
     }

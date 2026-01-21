@@ -9,7 +9,7 @@ Button {
     property color primaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.primaryColor : "#0078D4"
     property color textColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
     property bool isPrimary: false
-    property bool isFlat: false
+    property alias isFlat: root.flat
 
     readonly property color backgroundColor: isFlat
         ? "transparent"

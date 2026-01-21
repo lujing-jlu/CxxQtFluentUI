@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls.Basic 2.15
 import QtQuick.Layouts 2.15
 import "../../themes"
+import "../../utils"
 import "../../components"
 
 
@@ -43,7 +44,7 @@ ItemDelegate {
                 visible: text.text.length > 0
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                 id: text
-                typography: Typography.Body
+                font.pixelSize: 14
                 wrapMode: Text.Wrap
                 text: {
                     delegate.text

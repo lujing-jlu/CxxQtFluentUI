@@ -1,7 +1,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
-import RinUI
+import "../../utils"
+import "../Text" as RinText
 
 
 Frame {
@@ -37,7 +38,7 @@ Frame {
             Column {
                 Layout.fillWidth: true
                 spacing: 0
-                Text {
+                RinText.Text {
                     id: titleLabel
                     width: parent.width
                     typography: Typography.Body
@@ -47,7 +48,7 @@ Frame {
                     visible: title.length > 0
                 }
 
-                Text {
+                RinText.Text {
                     id: descriptionLabel
                     width: parent.width
                     typography: Typography.Caption

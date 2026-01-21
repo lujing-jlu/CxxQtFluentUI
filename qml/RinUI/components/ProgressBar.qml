@@ -5,6 +5,12 @@ import "../utils" as Utils
 ProgressBar {
     id: root
 
+    enum State {
+        Running,
+        Paused,
+        Error
+    }
+
     // Use direct property access (参考 Rin-UI)
     property color themePrimaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.primaryColor : "#0078D4"
     property color themeControlBorderStrongColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlBorderStrongColor : "#8a8a8a"
@@ -16,13 +22,7 @@ ProgressBar {
         : themeControlBorderStrongColor
     property color primaryColor: themePrimaryColor
     property int radius: 99
-    property int state: root.Running
-
-    enum State {
-        Running,
-        Paused,
-        Error
-    }
+    property int state: 0
 
     implicitHeight: 4
 

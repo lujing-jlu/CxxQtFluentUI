@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Layouts 2.15
 import "../../themes"
 import "../../components"
+import "../../utils"
 
 
 Frame {
@@ -59,8 +60,6 @@ Frame {
 
     // width: 200
     Layout.fillWidth: true
-    padding: 5
-    leftPadding: 15
     hoverable: false
     opacity: 0
 
@@ -79,13 +78,16 @@ Frame {
     RowLayout {
         id: main
         anchors.fill: parent
+        anchors.leftMargin: 10
+        anchors.rightMargin: 5
         spacing: 13
 
         IconWidget {
             id: iconWidget
             Layout.preferredHeight: 38
             Layout.alignment: Qt.AlignTop
-            size: 18
+            width: 18
+            height: 18
             icon: {
                 switch (severity) {
                     case Severity.Info: return "ic_fluent_info_20_filled";
@@ -117,7 +119,8 @@ Frame {
 
             Text {
                 id: titleText
-                typography: Typography.BodyStrong
+                font.pixelSize: 14
+                    font.bold: true
                 text: infoBar.title
                 topPadding: 6
             }
@@ -132,7 +135,7 @@ Frame {
                 )
                 width: wrap ?
                     parent.width : implicitWidth
-                typography: Typography.Body
+                font.pixelSize: 14
                 text: infoBar.text
                 onLinkActivated: Qt.openUrlExternally(link)
                 topPadding: wrap? 0 : 6
@@ -161,7 +164,7 @@ Frame {
                 id: closeButton
                 flat: true
                 icon.name: "ic_fluent_dismiss_20_regular"
-                size: 18
+                iconSize: 18
                 Layout.preferredWidth: 38
                 Layout.preferredHeight: 38
                 visible: closable

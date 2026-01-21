@@ -16,12 +16,21 @@ Window {
 
     property var themeManager: Themes.ThemeManager
 
+    Rin.FloatLayer {
+        id: floatLayer
+        anchors.fill: parent
+        z: 999
+    }
+
     // Main navigation view - simplified usage
     Rin.NavigationView {
         id: navigationView
         anchors.fill: parent
         expandWidth: 180
-        initialPage: "HomePage"
+        initialPage: (Qt.application && Qt.application.arguments && Qt.application.arguments.length > 1)
+            ? Qt.application.arguments[1]
+            : "HomePage"
+        floatLayer: floatLayer
 
         onPageChanged: function(pageName) {
             let pageTitle = Rin.NavigationConfig.getPageTitle(pageName)

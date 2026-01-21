@@ -20,7 +20,7 @@ SpinBox {
     editable: true
     property color primaryColor: themePrimaryColor
 
-    implicitWidth: Math.max(implicitWidth + 64, 124)
+    implicitWidth: Math.max((contentItem ? contentItem.implicitWidth : 0) + 64, 124)
 
     // Content
     contentItem: TextInput {

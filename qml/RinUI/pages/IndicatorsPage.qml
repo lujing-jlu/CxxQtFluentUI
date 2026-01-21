@@ -6,6 +6,7 @@ import "../components" as Rin
 
 ScrollView {
     id: root
+    property var navigationView: null
     width: parent ? parent.width : 800
     height: parent ? parent.height : 600
 
@@ -92,31 +93,31 @@ ScrollView {
                     Rin.ProgressBar {
                         Layout.fillWidth: true
                         value: 0.0
-                        label: "0%"
+                        
                     }
 
                     Rin.ProgressBar {
                         Layout.fillWidth: true
                         value: 0.25
-                        label: "25%"
+                        
                     }
 
                     Rin.ProgressBar {
                         Layout.fillWidth: true
                         value: 0.5
-                        label: "50%"
+                        
                     }
 
                     Rin.ProgressBar {
                         Layout.fillWidth: true
                         value: 0.75
-                        label: "75%"
+                        
                     }
 
                     Rin.ProgressBar {
                         Layout.fillWidth: true
                         value: 1.0
-                        label: "100%"
+                        
                     }
                 }
 

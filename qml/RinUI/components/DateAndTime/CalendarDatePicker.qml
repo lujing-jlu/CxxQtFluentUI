@@ -29,7 +29,10 @@ Button {
 
     property string iconName: "ic_fluent_calendar_20_regular"
     property int iconSize: 16
-    property color iconColor: themeManager.currentTheme.colors.textSecondaryColor
+    property var themeColors: themeManager.currentTheme && themeManager.currentTheme.colors
+        ? themeManager.currentTheme.colors
+        : null
+    property color iconColor: themeColors ? themeColors.textSecondaryColor : "#6c6c6c"
     property bool iconVisible: true
 
     signal dateSelected(date date)
@@ -54,8 +57,9 @@ Button {
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
             text: root.selectedDate ? root.fmt(root.selectedDate) : root.placeholderText
-            color: root.selectedDate ? Colors.proxy.textColor
-                : Colors.proxy.textSecondaryColor
+            color: root.selectedDate
+                ? (root.themeColors ? root.themeColors.textColor : "#1b1b1b")
+                : (root.themeColors ? root.themeColors.textSecondaryColor : "#6c6c6c")
         }
         Icon {
             visible: root.iconVisible

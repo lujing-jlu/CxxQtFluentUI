@@ -11,6 +11,9 @@ Button {
     property string pmText: qsTr("PM")
     property string hourText: qsTr("hour")
     property string minuteText: qsTr("minute")
+    property var themeColors: themeManager.currentTheme && themeManager.currentTheme.colors
+        ? themeManager.currentTheme.colors
+        : null
 
     // 是否使用24小时制
     property bool use24Hour: false
@@ -66,8 +69,9 @@ Button {
         Text {
             Layout.fillWidth: true
             Layout.maximumWidth: use24Hour ? timePickerButton.implicitWidth / 2 : timePickerButton.implicitWidth / 3
-            color: pickerView.gotData ? themeManager.currentTheme.colors.textColor
-                : themeManager.currentTheme.colors.textSecondaryColor
+            color: pickerView.gotData
+                ? (timePickerButton.themeColors ? timePickerButton.themeColors.textColor : "#1b1b1b")
+                : (timePickerButton.themeColors ? timePickerButton.themeColors.textSecondaryColor : "#6c6c6c")
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
 
@@ -79,8 +83,9 @@ Button {
         Text {
             Layout.fillWidth: true
             Layout.maximumWidth: use24Hour ? timePickerButton.implicitWidth / 2 : timePickerButton.implicitWidth / 3
-            color: pickerView.gotData ? themeManager.currentTheme.colors.textColor
-                : themeManager.currentTheme.colors.textSecondaryColor
+            color: pickerView.gotData
+                ? (timePickerButton.themeColors ? timePickerButton.themeColors.textColor : "#1b1b1b")
+                : (timePickerButton.themeColors ? timePickerButton.themeColors.textSecondaryColor : "#6c6c6c")
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
 
@@ -93,8 +98,9 @@ Button {
         Text {
             Layout.fillWidth: true
             Layout.maximumWidth: timePickerButton.implicitWidth / 3
-            color: pickerView.gotData ? themeManager.currentTheme.colors.textColor
-                : themeManager.currentTheme.colors.textSecondaryColor
+            color: pickerView.gotData
+                ? (timePickerButton.themeColors ? timePickerButton.themeColors.textColor : "#1b1b1b")
+                : (timePickerButton.themeColors ? timePickerButton.themeColors.textSecondaryColor : "#6c6c6c")
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
 

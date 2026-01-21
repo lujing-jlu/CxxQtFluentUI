@@ -8,6 +8,9 @@ Button {
     id: datePicker
 
     property bool yearVisible: true
+    property var themeColors: themeManager.currentTheme && themeManager.currentTheme.colors
+        ? themeManager.currentTheme.colors
+        : null
 
     property alias year: pickerView.value3
     property alias month: pickerView.value1
@@ -113,8 +116,9 @@ Button {
 
                 Text {
                     anchors.centerIn: parent
-                    color: pickerView.gotData ? themeManager.currentTheme.colors.textColor
-                        : themeManager.currentTheme.colors.textSecondaryColor
+                    color: pickerView.gotData
+                        ? (datePicker.themeColors ? datePicker.themeColors.textColor : "#1b1b1b")
+                        : (datePicker.themeColors ? datePicker.themeColors.textSecondaryColor : "#6c6c6c")
 
                     text: {
                         const type = modelData

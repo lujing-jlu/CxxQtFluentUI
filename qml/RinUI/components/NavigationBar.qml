@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "../themes"
 import "../components" as Rin
-import "../utils" as Utils
 
 Item {
     id: navigationBar
@@ -22,11 +21,24 @@ Item {
     property var stackView: null
     property string currentPage: ""
     property bool collapsedByAutoResize: false
+    property var floatLayer: null
 
     // Navigation history
     property var lastPages: []
 
     signal pageChanged(string page)
+
+    function normalizePageKey(page) {
+        var pageKey = String(page)
+        if (pageKey.endsWith(".qml")) {
+            pageKey = pageKey.replace(".qml", "")
+        }
+        return pageKey
+    }
+
+    function cleanPageName(page) {
+        return String(page).replace(/^pages\//, "").replace(/\.qml$/, "")
+    }
 
     function isNotOverMinimumWidth() {
         return windowWidth < minimumExpandWidth;
@@ -79,19 +91,20 @@ Item {
     // Data filtering
     function getTopItems() {
         return navigationItems.filter(function(item) {
-            return item.position === 1; // Position.Top
+            return item.position === Rin.Position.Top
         });
     }
 
     function getMiddleItems() {
         return navigationItems.filter(function(item) {
-            return item.position === undefined || item.position === null || item.position === 0;
+            return item.position === undefined || item.position === null
+                || (item.position !== Rin.Position.Top && item.position !== Rin.Position.Bottom)
         });
     }
 
     function getBottomItems() {
         return navigationItems.filter(function(item) {
-            return item.position === 2; // Position.Bottom
+            return item.position === Rin.Position.Bottom
         });
     }
 
@@ -224,20 +237,20 @@ Item {
         }
     }
 
-    // Push function
-    function push(page, properties) {
+    function navigate(page, properties, addToHistory) {
         if (properties === undefined) properties = {}
+        if (addToHistory === undefined) addToHistory = true
 
-        if (currentPage !== "" && lastPages.length < 2) {
-            lastPages.push(currentPage)
-        } else if (lastPages.length >= 2) {
-            lastPages.shift()
-            lastPages.push(currentPage)
-        }
+        var pageKey = normalizePageKey(page)
+        if (String(currentPage) === String(pageKey)) return
 
-        var pageKey = String(page)
-        if (pageKey.endsWith(".qml")) {
-            pageKey = pageKey.replace(".qml", "")
+        if (addToHistory && currentPage !== "") {
+            if (lastPages.length < 2) {
+                lastPages.push(currentPage)
+            } else {
+                lastPages.shift()
+                lastPages.push(currentPage)
+            }
         }
 
         currentPage = pageKey
@@ -245,30 +258,59 @@ Item {
 
         if (stackView) {
             var pageUrl
-            var cleanPage = page.replace(/^pages\//, "").replace(/\.qml$/, "")
+            var cleanPage = cleanPageName(page)
 
             // Use configured pages directory
             pageUrl = Qt.resolvedUrl("../" + pagesDirectory + "/" + cleanPage + ".qml")
             var component = Qt.createComponent(pageUrl)
             if (component.status === Component.Ready) {
-                stackView.push(component, properties)
+                if (properties.navigationView === undefined) properties.navigationView = navigationBar
+                var pageInstance = component.createObject(stackView, properties)
+                if (!pageInstance) {
+                    console.error("Failed to create page instance:", cleanPage)
+                    return
+                }
+                if (navigationBar.floatLayer && pageInstance.floatLayer !== undefined) {
+                    pageInstance.floatLayer = navigationBar.floatLayer
+                }
+                if (stackView.currentItem) stackView.replace(stackView.currentItem, pageInstance)
+                else stackView.push(pageInstance)
             } else {
                 console.error("Failed to load page:", page, component.errorString())
+                if (properties.navigationView === undefined) properties.navigationView = navigationBar
+                var errorComponent = Qt.createComponent(Qt.resolvedUrl("Navigation/ErrorPage.qml"))
+                if (errorComponent.status !== Component.Ready) {
+                    console.error("Failed to load ErrorPage:", errorComponent.errorString())
+                    return
+                }
+                var errorInstance = errorComponent.createObject(stackView, {
+                    page: cleanPage,
+                    errorMessage: component.errorString(),
+                    navigationView: navigationBar
+                })
+                if (!errorInstance) {
+                    console.error("Failed to create ErrorPage instance")
+                    return
+                }
+                if (navigationBar.floatLayer && errorInstance.floatLayer !== undefined) {
+                    errorInstance.floatLayer = navigationBar.floatLayer
+                }
+                if (stackView.currentItem) stackView.replace(stackView.currentItem, errorInstance)
+                else stackView.push(errorInstance)
             }
         }
+    }
+
+    // Push function
+    function push(page, properties) {
+        navigate(page, properties, true)
     }
 
     // Pop function
     function pop() {
         if (lastPages.length > 0) {
             var prevPage = lastPages.pop()
-            currentPage = String(prevPage)
-            if (prevPage.endsWith(".qml")) {
-                prevPage = prevPage.replace(".qml", "")
-            }
-            if (stackView && stackView.depth > 1) {
-                stackView.pop()
-            }
+            navigate(prevPage, {}, false)
         }
     }
 }

@@ -113,7 +113,7 @@ ComboBox {
     popup: Rin.ContextMenu {
         id: menu
         width: root.width
-        model: root.model
+        model: root.model || []
         currentIndex: root.currentIndex
 
         function handleItemSelected(index) {

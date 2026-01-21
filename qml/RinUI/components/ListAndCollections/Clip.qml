@@ -8,15 +8,14 @@ import "../../utils" as Utils
 
 Button {
     id: root
-    property alias color: background.color
-    property alias radius: background.radius
-    property alias borderColor: background.borderColor
-    property alias borderWidth: background.borderWidth
+    property alias color: frameBackground.color
+    property alias radius: frameBackground.radius
+    property alias borderColor: frameBackground.borderColor
+    property alias borderWidth: frameBackground.borderWidth
 
-    background: Frame {
-        id: background
+    background: Rin.Frame {
+        id: frameBackground
         anchors.fill: parent
-        color: root.backgroundColor
         opacity: 1
     }
 

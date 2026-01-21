@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
 import "../../themes"
 import "../../components"
+import "../../utils"
 
 
 Menu {
@@ -20,7 +21,6 @@ Menu {
             case Position.Right:
                 return parent.width + 5
             default:
-                // return (parent.width - root.width) / 2
                 return root.x
         }
     }

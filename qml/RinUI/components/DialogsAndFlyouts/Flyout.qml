@@ -1,18 +1,15 @@
 import QtQuick 2.15
-import QtQuick.Controls.Basic 2.15
 import QtQuick.Layouts 2.15
-import Qt5Compat.GraphicalEffects
-import "../../themes"
-import "../../components"
+import ".." as Rin
 
-Popup {
+Rin.Popup {
     id: flyout
-    property alias text: flyoutText.text  // 弹出文本内容
-    property alias buttonBox: buttonLayout.data  // 按钮列表
-    default property alias content: customContent.data  // 弹出内容
 
-    position: Position.Top
+    property alias text: flyoutText.text
+    property alias buttonBox: buttonLayout.data
+    default property alias content: customContent.data
 
+    position: Rin.Position.Top
     padding: 16
 
     contentItem: ColumnLayout {
@@ -26,7 +23,8 @@ Popup {
             Text {
                 id: flyoutText
                 Layout.fillWidth: true
-                typography: Typography.Body
+                font.pixelSize: 14
+                wrapMode: Text.WordWrap
                 visible: text.length > 0
             }
         }
@@ -37,51 +35,10 @@ Popup {
         }
 
         RowLayout {
-            Layout.fillWidth: true
             id: buttonLayout
+            Layout.fillWidth: true
             spacing: 8
         }
     }
-
-    // 动画 / Animation //
-    enter: Transition {
-        ParallelAnimation {
-            NumberAnimation {
-                target: flyout
-                property: "opacity"
-                from: 0
-                to: 1
-                duration: Utils.appearanceSpeed
-                easing.type: Easing.OutQuint
-            }
-            NumberAnimation {
-                target: flyout
-                property: "y"
-                from: posY + (position === Position.Top ? 15 : position === Position.Bottom ? -15 : 0)
-                to: posY
-                duration: Utils.animationSpeedMiddle * 1.25
-                easing.type: Easing.OutQuint
-            }
-            NumberAnimation {
-                target: flyout
-                property: "x"
-                from: posX + (position === Position.Left ? 15 : position === Position.Right ? -15 : 0)
-                to: posX
-                duration: Utils.animationSpeedMiddle * 1.25
-                easing.type: Easing.OutQuint
-            }
-        }
-    }
-    exit: Transition {
-        ParallelAnimation {
-            NumberAnimation {
-                target: flyout
-                property: "opacity"
-                from: 1
-                to: 0
-                duration: Utils.animationSpeed
-                easing.type: Easing.OutQuint
-            }
-        }
-    }
 }
+

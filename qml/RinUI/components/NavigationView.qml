@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
 import "../themes"
-import "../utils" as Utils
+import "../utils"
 import "."
 
 Item {
@@ -13,6 +13,7 @@ Item {
     property string initialPage: "HomePage"
     property int expandWidth: 180
     property int collapsedWidth: 40
+    property var floatLayer: null
 
     // Read-only
     property var currentStackView: internal.stackView
@@ -20,6 +21,8 @@ Item {
 
     // Signals
     signal pageChanged(string pageName)
+
+    property int pushEnterFromY: height
 
     QtObject {
         id: internal
@@ -61,47 +64,81 @@ Item {
                 id: mainStackView
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                clip: true
+                initialItem: Item {}
 
                 Component.onCompleted: {
                     internal.stackView = mainStackView
                     navigationBar.stackView = mainStackView
+                    navigationBar.floatLayer = root.floatLayer
                     // Load initial page
                     navigationBar.push(root.initialPage)
                 }
 
-                // Simple show/hide transitions
+                // Page transitions (match Rin-UI behavior to avoid stacking)
                 pushEnter: Transition {
                     PropertyAnimation {
                         property: "opacity"
                         from: 0
                         to: 1
-                        duration: 0
+                        duration: Utils.appearanceSpeed
+                        easing.type: Easing.InOutQuad
+                    }
+                    PropertyAnimation {
+                        property: "y"
+                        from: root.pushEnterFromY
+                        to: 0
+                        duration: Utils.animationSpeedMiddle
+                        easing.type: Easing.OutQuint
                     }
                 }
+
                 pushExit: Transition {
                     PropertyAnimation {
                         property: "opacity"
                         from: 1
                         to: 0
-                        duration: 0
+                        duration: Utils.animationSpeed
+                        easing.type: Easing.InOutQuad
                     }
                 }
-                popEnter: Transition {
-                    PropertyAnimation {
-                        property: "opacity"
-                        from: 0
-                        to: 1
-                        duration: 0
-                    }
-                }
+
                 popExit: Transition {
+                    SequentialAnimation {
+                        PauseAnimation { duration: Utils.animationSpeedFaster * 0.6 }
+                        PropertyAnimation {
+                            property: "opacity"
+                            from: 1
+                            to: 0
+                            duration: Utils.appearanceSpeed
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
                     PropertyAnimation {
-                        property: "opacity"
-                        from: 1
-                        to: 0
-                        duration: 0
+                        property: "y"
+                        from: 0
+                        to: root.pushEnterFromY
+                        duration: Utils.animationSpeed
+                        easing.type: Easing.InQuint
                     }
                 }
+
+                popEnter: Transition {
+                    SequentialAnimation {
+                        PauseAnimation { duration: Utils.animationSpeed }
+                        PropertyAnimation {
+                            property: "opacity"
+                            from: 0
+                            to: 1
+                            duration: 100
+                            easing.type: Easing.InOutQuad
+                        }
+                    }
+                }
+
+                // Keep replace behavior consistent with push to avoid visual glitches
+                replaceEnter: pushEnter
+                replaceExit: pushExit
             }
         }
     }

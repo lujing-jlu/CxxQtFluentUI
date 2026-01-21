@@ -3,6 +3,7 @@ import QtQuick.Controls.Basic 2.15
 import QtQuick.Layouts 2.15
 import "../../themes"
 import "../../components"
+import "../../utils"
 
 
 MenuItem {
@@ -40,6 +41,7 @@ MenuItem {
     }
 
     property var parentMenu: undefined
+    property string shortcut: ""
 
     // accessibility
     FocusIndicator {
@@ -53,7 +55,7 @@ MenuItem {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.margins: 16
-        color: Theme.currentTheme.colors.textSecondaryColor
+        color: themeManager.currentTheme.colors.textSecondaryColor
         visible: root.subMenu
         icon: "ic_fluent_chevron_right_20_regular"
         size: 12
@@ -91,16 +93,16 @@ MenuItem {
             id: menuText
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-            typography: Typography.Body
+            font.pixelSize: 14
             text: root.text
             wrapMode: Text.NoWrap
         }
         Text {
             id: shortcutText
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-            typography: Typography.Caption
-            text: root.action ? root.action.shortcut : ""
-            color: Theme.currentTheme.colors.textSecondaryColor
+            font.pixelSize: 12
+            text: root.shortcut !== "" ? root.shortcut : (root.action ? root.action.shortcut : "")
+            color: themeManager.currentTheme.colors.textSecondaryColor
             visible: text
         }
     }
@@ -111,10 +113,10 @@ MenuItem {
         anchors.margins: 5
         anchors.topMargin: 0
         anchors.bottomMargin: 0
-        radius: Theme.currentTheme.appearance.buttonRadius
-        color: enabled ? pressed ? Theme.currentTheme.colors.subtleTertiaryColor
+        radius: themeManager.currentTheme.appearance.buttonRadius
+        color: enabled ? pressed ? themeManager.currentTheme.colors.subtleTertiaryColor
             : hovered
-            ? Theme.currentTheme.colors.subtleSecondaryColor
+            ? themeManager.currentTheme.colors.subtleSecondaryColor
             : "transparent" : "transparent"
 
         Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }

@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls.Basic 2.15
 import QtQuick.Layouts 2.15
 import "../../themes"
+import "../../utils"
 import "../../components"
 
 ListView {
@@ -82,7 +83,8 @@ ListView {
         }
     }
 
-    property Animation updateAnimation: ParallelAnimation {
+    ParallelAnimation {
+        id: updateAnimation
         NumberAnimation {
             target: root
             property: "contentY"
@@ -121,7 +123,7 @@ ListView {
         //     Text {
         //         Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
         //         id: text
-        //         typography: Typography.Body
+        //         font.pixelSize: 14
         //         wrapMode: Text.Wrap
         //         text: {
         //             switch (root.modelType) {

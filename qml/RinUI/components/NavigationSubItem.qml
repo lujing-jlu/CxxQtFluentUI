@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "../themes"
 import "../components" as Rin
-import "../utils" as Utils
 
 Item {
     id: root

@@ -3,6 +3,7 @@ import QtQuick.Controls.Basic 2.15
 import QtQuick.Layouts 2.15
 import Qt5Compat.GraphicalEffects
 import "../../themes"
+import "../../utils"
 import "../../components"
 
 Item {
@@ -10,7 +11,7 @@ Item {
     property int size: 96
     property string source: ""
     property string text
-    property alias icon: icon.icon
+    property alias icon: iconWidget.icon
 
     implicitWidth: size
     implicitHeight: size
@@ -19,15 +20,17 @@ Item {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: Theme.currentTheme.colors.controlQuaternaryColor
-        border.color: Theme.currentTheme.colors.cardBorderColor
+        color: themeManager.currentTheme && themeManager.currentTheme.colors ?
+            themeManager.currentTheme.colors.controlQuaternaryColor : "#f0f0f0"
+        border.color: themeManager.currentTheme && themeManager.currentTheme.colors ?
+            themeManager.currentTheme.colors.cardBorderColor : "#e5e5e5"
         radius: size / 2
 
         // 图标
         IconWidget {
-            id: icon
+            id: iconWidget
             anchors.centerIn: parent
-            name:  "ic_fluent_person_20_regular"
+            name: "ic_fluent_person_20_regular"
             size: root.size * 0.5
 
             visible: root.source === "" && root.text === ""
@@ -39,6 +42,8 @@ Item {
             anchors.centerIn: parent
             font.pixelSize: size * 0.41
             font.bold: true
+            color: themeManager.currentTheme && themeManager.currentTheme.colors ?
+                themeManager.currentTheme.colors.textColor : "#1b1b1b"
             text: {
                 let text_list = root.text.split(" ")
                 let result = ""

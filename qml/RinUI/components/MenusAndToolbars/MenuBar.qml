@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls.Basic 2.15
 import "../../components"
 import "../../themes"
+import "../../utils"
 
 MenuBar {
     id: menuBar
@@ -23,7 +24,7 @@ MenuBar {
         contentItem: Text {
             id: text
             anchors.centerIn: parent
-            typography: Typography.Body
+            font.pixelSize: 14
             horizontalAlignment: Text.AlignHCenter
             text: menuBarItem.text
         }

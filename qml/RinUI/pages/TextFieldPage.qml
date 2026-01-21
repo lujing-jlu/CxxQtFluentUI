@@ -6,6 +6,7 @@ import "../components" as Rin
 
 ScrollView {
     id: root
+    property var navigationView: null
     Layout.fillWidth: true
     Layout.fillHeight: true
     clip: true

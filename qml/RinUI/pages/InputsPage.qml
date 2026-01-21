@@ -5,6 +5,7 @@ import "../components" as Rin
 
 Item {
     id: root
+    property var navigationView: null
 
     property var colors: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors : null
     property var typography: themeManager.currentTheme ? themeManager.currentTheme.typography : null

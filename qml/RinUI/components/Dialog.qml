@@ -7,19 +7,17 @@ import "../components" as Rin
 Dialog {
     id: root
 
-    property var colors: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors : QtObject {
-        property color backgroundAcrylicColor: "#ffffff"
-        property color windowBorderColor: "#e5e5e5"
-        property color backgroundSmokeColor: Qt.alpha("#000000", 0.32)
-    }
-
-    property var appearance: themeManager.currentTheme ? themeManager.currentTheme.appearance : QtObject {
-        property int windowRadius: 8
-    }
-
-    property var typography: themeManager.currentTheme ? themeManager.currentTheme.typography : QtObject {
-        property int subtitleSize: 20
-    }
+    property color backgroundAcrylicColor: themeManager.currentTheme && themeManager.currentTheme.colors
+        ? themeManager.currentTheme.colors.backgroundAcrylicColor : "#ffffff"
+    property color windowBorderColor: themeManager.currentTheme && themeManager.currentTheme.colors
+        ? themeManager.currentTheme.colors.windowBorderColor : "#e5e5e5"
+    property color backgroundSmokeColor: "#55000000"
+    property color textColor: themeManager.currentTheme && themeManager.currentTheme.colors
+        ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
+    property int windowRadius: themeManager.currentTheme && themeManager.currentTheme.appearance
+        ? themeManager.currentTheme.appearance.windowRadius : 8
+    property int subtitleSize: themeManager.currentTheme && themeManager.currentTheme.typography
+        ? themeManager.currentTheme.typography.subtitleSize : 20
 
     property bool titleBarVisible: false
 
@@ -36,10 +34,10 @@ Dialog {
         spacing: 12
         Text {
             Layout.fillWidth: true
-            font.pixelSize: typography.subtitleSize
+            font.pixelSize: subtitleSize
             font.bold: true
             text: root.title
-            color: colors.textColor
+            color: textColor
         }
     }
 
@@ -53,14 +51,14 @@ Dialog {
     background: Rectangle {
         id: background
         anchors.fill: parent
-        color: colors.backgroundAcrylicColor
-        border.color: colors.windowBorderColor
+        color: backgroundAcrylicColor
+        border.color: windowBorderColor
         border.width: 1
-        radius: appearance.windowRadius
+        radius: windowRadius
     }
 
     Overlay.modal: Rectangle {
-        color: colors.backgroundSmokeColor
+        color: backgroundSmokeColor
     }
 
     // Animation

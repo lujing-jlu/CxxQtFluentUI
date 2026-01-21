@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Controls.Basic 2.15
 import QtQuick.Layouts 2.15
 import "../../themes"
+import "../../utils"
 import "../../components"
 
 
@@ -58,7 +59,7 @@ Rectangle {
         }
 
         Text {
-            typography: Typography.Caption
+            font.pixelSize: 12
             text: root.text
             color: solid ? themeManager.currentTheme.colors.textOnAccentColor : primaryColor
             visible: root.text

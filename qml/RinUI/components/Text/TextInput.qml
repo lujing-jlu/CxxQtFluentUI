@@ -7,7 +7,7 @@ import "../../components"
 
 TextInput {
     id: root
-    property int typography: Typography.Body
+    property int font.pixelSize: 14
     selectByMouse: true
 
     color: themeManager.currentTheme.colors.textColor

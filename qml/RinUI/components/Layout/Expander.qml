@@ -3,8 +3,8 @@ import QtQuick.Controls.Basic 2.15
 import QtQuick.Layouts 2.15
 import Qt5Compat.GraphicalEffects
 import "../../themes"
+import "../../utils"
 import "../../components"
-
 
 // expander
 Item {
@@ -13,12 +13,13 @@ Item {
     property bool expanded: false
     property alias headerHeight: header.height
     property alias contentHeight: content.height
-    property alias contentPadding: content.padding
+    property real contentPadding: 7
     property alias contentSpacing: contentLayout.spacing
     enum ExpandDirection { Up, Down }
     property var expandDirection: Expander.Down
     readonly property bool directionUp: root.expandDirection === Expander.Up
-    property real radius: Theme.currentTheme.appearance.windowRadius
+    property real radius: themeManager.currentTheme && themeManager.currentTheme.appearance ?
+        themeManager.currentTheme.appearance.windowRadius : 8
 
     property alias header: headerCustom.data
     property string text
@@ -27,7 +28,7 @@ Item {
     implicitWidth: Math.max(
         headerLayout.implicitWidth + 5 * 2,
         contentLayout.implicitWidth + contentPadding * 2,
-        headerCustom.implicitWidth + 20 + expandBtn.width
+        200
     )
     implicitHeight: headerHeight + (content.height - 2) * expanded
 
@@ -41,8 +42,8 @@ Item {
         onClicked: {}  // 防止穿透
     }
 
-    // 主体
-    Rin.Clip {
+    // 主体 - 使用 Rectangle 替代 Clip
+    Rectangle {
         id: header
         enabled: root.enabled
         y: directionUp ? content.height * expanded : 0
@@ -52,7 +53,8 @@ Item {
             headerLayout.implicitHeight + 5 * 2,
             48
         )
-        radius: 0
+        radius: root.radius
+        color: "transparent"
 
         RowLayout {
             id: headerCustom
@@ -71,6 +73,8 @@ Item {
             Text {
                 Layout.fillWidth: true
                 text: root.text
+                color: themeManager.currentTheme && themeManager.currentTheme.colors ?
+                    themeManager.currentTheme.colors.textColor : "#1b1b1b"
                 opacity: headerCustom.children.length === 0
             }
             // 展开按钮
@@ -80,7 +84,7 @@ Item {
                 Layout.preferredWidth: 40
                 Layout.preferredHeight: 40
                 hoverable: false
-                size: 14
+                iconSize: 14
                 icon.name: directionUp ? "ic_fluent_chevron_up_20_filled" : "ic_fluent_chevron_down_20_filled"
 
                 // 展开动画
@@ -90,11 +94,14 @@ Item {
                 }
                 opacity: 0.7
 
-                onClicked: expanded =!expanded
+                onClicked: expanded = !expanded
             }
         }
 
-        onClicked: expanded =!expanded
+        MouseArea {
+            anchors.fill: parent
+            onClicked: expanded = !expanded
+        }
 
         Behavior on y {
             NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint }
@@ -114,7 +121,6 @@ Item {
 
         Frame {
             id: content
-            padding: 7
             width: parent.width
             y: expanded
                 ? directionUp ? 2 : - 2
@@ -122,7 +128,8 @@ Item {
             radius: 0
             opacity: root.enabled ? 1 : 0.65
 
-            color: Theme.currentTheme.colors.cardSecondaryColor
+            color: themeManager.currentTheme && themeManager.currentTheme.colors ?
+                themeManager.currentTheme.colors.cardSecondaryColor : "#f5f5f5"
             // 内容区域 - 布局
             ColumnLayout {
                 id: contentLayout
@@ -130,7 +137,7 @@ Item {
             }
 
             Behavior on y {
-                NumberAnimation { duration: Utils.animationSpeedExpander; easing.type: expanded ? Easing.InQuint : Easing.OutQuint }
+                NumberAnimation { duration: Utils.animationSpeedMiddle; easing.type: expanded ? Easing.InQuint : Easing.OutQuint }
             }
 
             Behavior on opacity {
@@ -139,13 +146,13 @@ Item {
         }
 
         Behavior on height {
-            NumberAnimation { duration: Utils.animationSpeedExpander; easing.type: expanded ? Easing.InQuint : Easing.OutQuint }
+            NumberAnimation { duration: Utils.animationSpeedMiddle; easing.type: expanded ? Easing.InQuint : Easing.OutQuint }
         }
     }
 
     // 动画
     Behavior on implicitHeight {
-        NumberAnimation { duration: Utils.animationSpeedExpander; easing.type: expanded ? Easing.InQuint : Easing.OutQuint }
+        NumberAnimation { duration: Utils.animationSpeedMiddle; easing.type: expanded ? Easing.InQuint : Easing.OutQuint }
     }
 
     // 圆角裁切

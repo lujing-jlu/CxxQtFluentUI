@@ -5,6 +5,7 @@ import "../themes"
 
 Item {
     id: root
+    property var navigationView: null
     Layout.fillWidth: true
     Layout.fillHeight: true
 

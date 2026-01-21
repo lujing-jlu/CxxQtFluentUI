@@ -1,7 +1,8 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
-import RinUI
+import "../../themes"
+import "../../components" as Rin
 
 
 // 自定义控件演示 / Custom control demonstration //
@@ -29,7 +30,7 @@ Frame {
             Layout.fillHeight: true
             spacing: 16
 
-            Icon {
+            Rin.Icon {
                 id: icon
                 size: 20
                 visible: name !== "" || source !== ""
@@ -40,7 +41,7 @@ Frame {
                 Text {
                     id: titleLabel
                     Layout.fillWidth: true
-                    typography: Typography.Body
+                    font.pixelSize: 14
                     text: title
                     maximumLineCount: 2  // 限制最多两行
                     elide: Text.ElideRight  // 超过限制时用省略号
@@ -50,7 +51,7 @@ Frame {
                 Text {
                     id: discriptionLabel
                     Layout.fillWidth: true
-                    typography: Typography.Caption
+                    font.pixelSize: 12
                     text: description
                     color: themeManager.currentTheme.colors.textSecondaryColor
                     wrapMode: Text.Wrap  // 启用换行

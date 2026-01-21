@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls.Basic 2.15
-import "../utils" as Utils
+import "../utils"
 import "../components" as Rin
 
 Popup {
@@ -13,6 +13,12 @@ Popup {
     property int maximumHeight: 300
     property string textRole: ""
     property bool keyboardNavigation: false
+    readonly property string effectiveTextRole: {
+        if (contextMenu.parent && contextMenu.parent.textRole !== undefined && contextMenu.parent.textRole !== "") {
+            return String(contextMenu.parent.textRole)
+        }
+        return String(contextMenu.textRole || "")
+    }
 
     // Use direct property access (参考 Rin-UI)
     property color backgroundAcrylicColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.backgroundAcrylicColor : "#ffffff"
@@ -37,6 +43,7 @@ Popup {
         clip: true
         focus: true
         spacing: 0
+        model: []
         anchors.fill: parent
         anchors.topMargin: 2
         anchors.bottomMargin: 2
@@ -44,8 +51,9 @@ Popup {
         ScrollBar.vertical: ScrollBar {
             id: scrollBar
             policy: ScrollBar.AsNeeded
+            visible: false
+            opacity: 0
         }
-        model: control.popup.visible ? control.delegateModel : null
 
         delegate: ItemDelegate {
             id: delegate
@@ -77,7 +85,15 @@ Popup {
                     verticalAlignment: Text.AlignVCenter
                     font.pixelSize: 14
                     wrapMode: Text.Wrap
-                    text: model[contextMenu.parent.textRole]
+                    text: {
+                        if (contextMenu.effectiveTextRole !== "") {
+                            if (model && model[contextMenu.effectiveTextRole] !== undefined) return model[contextMenu.effectiveTextRole]
+                            if (modelData && modelData[contextMenu.effectiveTextRole] !== undefined) return modelData[contextMenu.effectiveTextRole]
+                        }
+                        if (typeof modelData === "string") return modelData
+                        if (modelData && modelData.text !== undefined) return modelData.text
+                        return ""
+                    }
                     color: textColor
                 }
 
@@ -89,7 +105,12 @@ Popup {
                     anchors.verticalCenter: parent.verticalCenter
                 }
 
-                Behavior on color { NumberAnimation { duration: 150; easing.type: Easing.InOutQuart } }
+                Rin.FocusIndicator {
+                    control: delegate
+                    forceVisible: highlighted && contextMenu.keyboardNavigation
+                }
+
+                Behavior on color { ColorAnimation { duration: Utils.appearanceSpeed; easing.type: Easing.InOutQuart } }
             }
 
             Keys.onUpPressed: {
@@ -116,7 +137,16 @@ Popup {
         radius: contextMenu.windowRadius
         color: backgroundAcrylicColor
         border.color: controlBorderColor
+
+        layer.enabled: true
+        layer.effect: Rin.Shadow {
+            id: shadow
+            style: "flyout"
+            source: background
+        }
     }
+
+    Behavior on y { NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.InOutQuart } }
 
     enter: Transition {
         ParallelAnimation {
@@ -129,11 +159,19 @@ Popup {
                 easing.type: Easing.InOutQuart
             }
             NumberAnimation {
+                target: scrollBar
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: 1000
+                easing.type: Easing.InOutCubic
+            }
+            NumberAnimation {
                 target: contextMenu
                 property: "height"
                 from: 46
                 to: contextMenu.implicitHeight
-                duration: 200
+                duration: Utils.animationSpeedMiddle
                 easing.type: Easing.OutQuint
                 onRunningChanged: {
                     scrollBar.visible = true;

@@ -6,6 +6,7 @@ import "../components" as Rin
 
 ScrollView {
     id: root
+    property var navigationView: null
     Layout.fillWidth: true
     Layout.fillHeight: true
     clip: true
@@ -70,7 +71,7 @@ ScrollView {
                         ? themeManager.currentTheme.colors.textSecondaryColor : "#6c6c6c"
                 }
 
-                Rin.ContextMenu {
+                Rin.Menu {
                     id: contextMenu
 
                     Rin.MenuItem {

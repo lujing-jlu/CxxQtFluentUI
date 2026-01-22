@@ -87,20 +87,6 @@ TextField {
             }
         }
 
-        Keys.onPressed: {
-            if (!suggestionsPopup.visible) return
-
-            if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                event.accepted = true
-                if (filteredModel.currentIndex >= 0 && filteredModel.currentIndex < filteredModel.count) {
-                    let selected = filteredModel.model[filteredModel.currentIndex]
-                    text = selected
-                    suggestionsPopup.close()
-                    suggestionChosen(selected)
-                    accepted()
-                }
-            }
-        }
     }
 
     Keys.onPressed: {
@@ -122,6 +108,17 @@ TextField {
                 userInput = false
                 text = filteredModel.model[filteredModel.currentIndex]
                 userInput = true
+            }
+        } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+            event.accepted = true
+            if (filteredModel.currentIndex >= 0 && filteredModel.currentIndex < filteredModel.count) {
+                let selected = filteredModel.model[filteredModel.currentIndex]
+                userInput = false
+                text = selected
+                userInput = true
+                suggestionsPopup.close()
+                suggestionChosen(selected)
+                accepted()
             }
         }
     }

@@ -110,14 +110,25 @@ ListView {
 
     delegate: ListViewDelegate {
         text: {
-            switch (root.modelType) {
-                case "array": return modelData;
-                case "array-with-role": return modelData[root.textRole] || modelData || "";
-                case "listmodel":
-                case "listmodel-like":
-                    return model[root.textRole] || modelData || "";
-                default: return "";
+            function normalize(value) {
+                return (value === undefined || value === null) ? "" : value
             }
+
+            if (!root.textRole) {
+                return normalize(modelData)
+            }
+
+            // Prefer modelData when possible; it works for JS arrays and most QML model types.
+            if (modelData && typeof modelData === "object" && modelData[root.textRole] !== undefined) {
+                return normalize(modelData[root.textRole])
+            }
+
+            // Fallbacks for model implementations that expose roles via `model[...]`.
+            if (model && model[root.textRole] !== undefined) {
+                return normalize(model[root.textRole])
+            }
+
+            return normalize(modelData)
         }
         // middleArea: [
         //     Text {

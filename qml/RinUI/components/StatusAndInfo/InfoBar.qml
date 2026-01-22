@@ -1,15 +1,15 @@
 import QtQuick 2.15
 import QtQuick.Layouts 2.15
 import "../../themes"
-import "../../components"
 import "../../utils"
+import "../../components" as Rin
 
 
-Frame {
+Rin.Frame {
     id: infoBar
     property string title: ""
     property string text: ""
-    property int severity: Severity.Info
+    property int severity: Rin.Severity.Info
     default property alias customContent: custom.data
     property int timeout: -1
     property int position: 0
@@ -50,16 +50,18 @@ Frame {
 
     color: {
         switch (severity) {
-            case Severity.Info: return themeManager.currentTheme.colors.systemAttentionBackgroundColor;
-            case Severity.Success: return themeManager.currentTheme.colors.systemSuccessBackgroundColor;
-            case Severity.Warning: return themeManager.currentTheme.colors.systemCautionBackgroundColor;
-            case Severity.Error: return themeManager.currentTheme.colors.systemCriticalBackgroundColor;
+            case Rin.Severity.Info: return themeManager.currentTheme.colors.systemAttentionBackgroundColor;
+            case Rin.Severity.Success: return themeManager.currentTheme.colors.systemSuccessBackgroundColor;
+            case Rin.Severity.Warning: return themeManager.currentTheme.colors.systemCautionBackgroundColor;
+            case Rin.Severity.Error: return themeManager.currentTheme.colors.systemCriticalBackgroundColor;
             default: return themeManager.currentTheme.colors.systemNeutralBackgroundColor;
         }
     }
 
     // width: 200
     Layout.fillWidth: true
+    padding: 5
+    leftPadding: 15
     hoverable: false
     opacity: 0
 
@@ -82,27 +84,26 @@ Frame {
         anchors.rightMargin: 5
         spacing: 13
 
-        IconWidget {
+        Rin.IconWidget {
             id: iconWidget
             Layout.preferredHeight: 38
             Layout.alignment: Qt.AlignTop
-            width: 18
-            height: 18
+            size: 18
             icon: {
                 switch (severity) {
-                    case Severity.Info: return "ic_fluent_info_20_filled";
-                    case Severity.Success: return "ic_fluent_checkmark_circle_20_filled";
-                    case Severity.Warning: return "ic_fluent_error_circle_20_filled";
-                    case Severity.Error: return "ic_fluent_dismiss_circle_20_filled";
+                    case Rin.Severity.Info: return "ic_fluent_info_20_filled";
+                    case Rin.Severity.Success: return "ic_fluent_checkmark_circle_20_filled";
+                    case Rin.Severity.Warning: return "ic_fluent_error_circle_20_filled";
+                    case Rin.Severity.Error: return "ic_fluent_dismiss_circle_20_filled";
                     default: return "ic_fluent_question_circle_20_filled";
                 }
             }
             color: {
                 switch (severity) {
-                    case Severity.Info: return themeManager.currentTheme.colors.systemAttentionColor;
-                    case Severity.Success: return themeManager.currentTheme.colors.systemSuccessColor;
-                    case Severity.Warning: return themeManager.currentTheme.colors.systemCautionColor;
-                    case Severity.Error: return themeManager.currentTheme.colors.systemCriticalColor;
+                    case Rin.Severity.Info: return themeManager.currentTheme.colors.systemAttentionColor;
+                    case Rin.Severity.Success: return themeManager.currentTheme.colors.systemSuccessColor;
+                    case Rin.Severity.Warning: return themeManager.currentTheme.colors.systemCautionColor;
+                    case Rin.Severity.Error: return themeManager.currentTheme.colors.systemCriticalColor;
                     default: return themeManager.currentTheme.colors.systemNeutralColor;
                 }
             }
@@ -117,14 +118,13 @@ Frame {
             // Layout.bottomMargin: 8
             spacing: bodyText.wrap ? 0 :12
 
-            Text {
+            Rin.Text {
                 id: titleText
-                font.pixelSize: 14
-                    font.bold: true
+                typography: Rin.Typography.BodyStrong
                 text: infoBar.title
                 topPadding: 6
             }
-            Text {
+            Rin.Text {
                 id: bodyText
                 property bool wrap: (
                     (
@@ -135,7 +135,7 @@ Frame {
                 )
                 width: wrap ?
                     parent.width : implicitWidth
-                font.pixelSize: 14
+                typography: Rin.Typography.Body
                 text: infoBar.text
                 onLinkActivated: Qt.openUrlExternally(link)
                 topPadding: wrap? 0 : 6
@@ -159,7 +159,7 @@ Frame {
             id: rights
             Layout.alignment: Qt.AlignTop
 
-            ToolButton {
+            Rin.ToolButton {
                 Layout.alignment: Qt.AlignTop
                 id: closeButton
                 flat: true

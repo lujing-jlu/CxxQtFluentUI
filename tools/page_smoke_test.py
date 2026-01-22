@@ -114,6 +114,7 @@ def looks_like_qml_error(output: str) -> bool:
         "Invalid alias target location",
         "Component is not ready",
         "Failed to load page:",
+        "Could not attach Keys property",
         "unavailable",
         "is not a type",
     ]
@@ -129,7 +130,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Smoke-test gallery pages by launching the app with an initial page.")
     parser.add_argument(
         "--config",
-        default="CxxQtFluentUI/qml/RinUI/components/NavigationConfig.qml",
+        default="CxxQtFluentUI/qml/RinUI/components/Navigation/NavigationConfig.qml",
         help="Path to NavigationConfig.qml (relative to repo root).",
     )
     parser.add_argument("--timeout", type=float, default=6.0, help="Seconds to run each page before killing it.")

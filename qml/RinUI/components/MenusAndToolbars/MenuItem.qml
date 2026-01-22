@@ -23,7 +23,7 @@ MenuItem {
     property MenuItemGroup group  // 组
 
     checkable: group
-    checked: group ? group.checkedButton === root : false
+    checked: group ? group.checkedItem === root : false
 
     onGroupChanged: {
         if (group)

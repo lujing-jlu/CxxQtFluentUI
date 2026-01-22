@@ -1,137 +1,106 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-import "../themes"
 import "../components" as Rin
 
-ScrollView {
-    id: root
-    property var navigationView: null
-    Layout.fillWidth: true
-    Layout.fillHeight: true
-    clip: true
+ControlPage {
+    id: page
+    title: qsTr("SpinBox")
 
-    ColumnLayout {
-        width: parent.width
-        spacing: 20
+    Text {
+        Layout.fillWidth: true
+        wrapMode: Text.WordWrap
+        text: qsTr("A number input control with increment and decrement buttons.")
+    }
 
-        // Header
-        ColumnLayout {
-            Layout.fillWidth: true
-            Layout.margins: 40
-            spacing: 8
+    Column {
+        Layout.fillWidth: true
+        spacing: 4
 
-            Text {
-                text: "SpinBox"
-                font.pixelSize: 32
-                font.weight: Font.Bold
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
-            }
-
-            Text {
-                text: "Number input control with increment/decrement buttons"
-                font.pixelSize: 14
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.textSecondaryColor : "#6c6c6c"
-            }
+        Text {
+            text: qsTr("A default SpinBox (0–100).")
+            font.pixelSize: 13
+            font.weight: Font.DemiBold
         }
 
-        // Demo Section
-        ColumnLayout {
-            Layout.fillWidth: true
-            Layout.leftMargin: 40
-            Layout.rightMargin: 40
-            spacing: 24
+        ControlShowcase {
+            width: parent.width
 
-            // Default SpinBox
-            ColumnLayout {
-                Layout.fillWidth: true
-                spacing: 8
+            Rin.SpinBox {
+                from: 0
+                to: 100
+                value: 50
+            }
+        }
+    }
 
-                Text {
-                    text: "Default SpinBox (0-100)"
-                    font.pixelSize: 16
-                    font.weight: Font.Medium
-                    color: themeManager.currentTheme && themeManager.currentTheme.colors
-                        ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
-                }
+    Column {
+        Layout.fillWidth: true
+        spacing: 4
 
-                Rin.SpinBox {
-                    from: 0
-                    to: 100
-                    value: 50
-                }
+        Text {
+            text: qsTr("A SpinBox with live value.")
+            font.pixelSize: 13
+            font.weight: Font.DemiBold
+        }
+
+        ControlShowcase {
+            width: parent.width
+            height: 120
+
+            Rin.SpinBox {
+                id: quantitySpinBox
+                from: 1
+                to: 99
+                value: 1
             }
 
-            // SpinBox with label
-            ColumnLayout {
-                Layout.fillWidth: true
-                spacing: 8
+            showcase: [
+                Text { text: qsTr("Selected quantity:") },
+                Text { text: String(quantitySpinBox.value) }
+            ]
+        }
+    }
 
-                Text {
-                    text: "Quantity"
-                    font.pixelSize: 14
-                    font.weight: Font.Medium
-                    color: themeManager.currentTheme && themeManager.currentTheme.colors
-                        ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
-                }
+    Column {
+        Layout.fillWidth: true
+        spacing: 4
 
-                Rin.SpinBox {
-                    id: quantitySpinBox
-                    from: 1
-                    to: 99
-                    value: 1
-                }
+        Text {
+            text: qsTr("A SpinBox with step size.")
+            font.pixelSize: 13
+            font.weight: Font.DemiBold
+        }
 
-                Text {
-                    text: "Selected quantity: " + quantitySpinBox.value
-                    font.pixelSize: 12
-                    color: themeManager.currentTheme && themeManager.currentTheme.colors
-                        ? themeManager.currentTheme.colors.textSecondaryColor : "#6c6c6c"
-                }
+        ControlShowcase {
+            width: parent.width
+
+            Rin.SpinBox {
+                from: 0
+                to: 100
+                value: 0
+                stepSize: 5
             }
+        }
+    }
 
-            // SpinBox with custom step
-            ColumnLayout {
-                Layout.fillWidth: true
-                spacing: 8
+    Column {
+        Layout.fillWidth: true
+        spacing: 4
 
-                Text {
-                    text: "SpinBox with custom step (step: 5)"
-                    font.pixelSize: 16
-                    font.weight: Font.Medium
-                    color: themeManager.currentTheme && themeManager.currentTheme.colors
-                        ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
-                }
+        Text {
+            text: qsTr("A disabled SpinBox.")
+            font.pixelSize: 13
+            font.weight: Font.DemiBold
+        }
 
-                Rin.SpinBox {
-                    from: 0
-                    to: 100
-                    value: 0
-                    stepSize: 5
-                }
-            }
+        ControlShowcase {
+            width: parent.width
 
-            // Disabled SpinBox
-            ColumnLayout {
-                Layout.fillWidth: true
-                spacing: 8
-
-                Text {
-                    text: "Disabled SpinBox"
-                    font.pixelSize: 16
-                    font.weight: Font.Medium
-                    color: themeManager.currentTheme && themeManager.currentTheme.colors
-                        ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
-                }
-
-                Rin.SpinBox {
-                    from: 0
-                    to: 100
-                    value: 42
-                    enabled: false
-                }
+            Rin.SpinBox {
+                from: 0
+                to: 100
+                value: 42
+                enabled: false
             }
         }
     }

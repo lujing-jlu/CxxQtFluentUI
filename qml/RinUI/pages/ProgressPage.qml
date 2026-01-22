@@ -6,83 +6,77 @@ ControlPage {
     id: page
     title: qsTr("ProgressBar")
 
-    Text {
+    Rin.Text {
         Layout.fillWidth: true
         wrapMode: Text.WordWrap
-        text: qsTr("The ProgressBar has two different visual representations: Indeterminate and Determinate.")
+        text: qsTr(
+            "The ProgressBar has two different visual representations:\n" +
+            "Indeterminate - shows that a task is ongoing, but doesn't block user interaction.\n" +
+            "Determinate - shows how much progress has been made on a known amount of work."
+        )
     }
 
-    Column {
-        Layout.fillWidth: true
-        spacing: 4
+    Rin.Text {
+        typography: Rin.Typography.BodyStrong
+        text: qsTr("An indeterminate ProgressBar.")
+    }
 
-        Text {
-            text: qsTr("Indeterminate")
-            font.pixelSize: 13
-            font.weight: Font.DemiBold
+    ControlShowcase {
+        Layout.fillWidth: true
+
+        Column {
+            width: parent.width
+            padding: 36
+            spacing: 4
+
+            Rin.ProgressBar {
+                width: parent.width
+                indeterminate: true
+                state: stateModel.get(statePicker.currentIndex).state
+            }
         }
 
-        ControlShowcase {
-            width: parent.width
-            showcaseWidth: 320
+        showcase: [
+            Rin.Text { text: qsTr("State") },
+            Rin.ComboBox {
+                id: statePicker
+                model: stateModel
+                textRole: "text"
+                currentIndex: 0
+            }
+        ]
+    }
 
-            Column {
-                spacing: 12
-                padding: 24
+    Rin.Text {
+        typography: Rin.Typography.BodyStrong
+        text: qsTr("A determinate ProgressBar.")
+    }
 
-                Rin.ProgressBar {
-                    Layout.fillWidth: true
-                    indeterminate: true
-                    state: stateModel.get(statePicker.currentIndex).state
-                }
+    Rin.Frame {
+        Layout.fillWidth: true
+        padding: 24
+
+        RowLayout {
+            spacing: 8
+
+            Rin.ProgressBar {
+                Layout.fillWidth: true
+                from: 0
+                to: 100
+                value: progress.value
+                state: stateModel.get(statePicker.currentIndex).state
             }
 
-            showcase: [
-                Text { text: qsTr("State") },
-                Rin.ComboBox {
-                    id: statePicker
-                    model: stateModel
-                    textRole: "text"
-                    currentIndex: 0
-                }
-            ]
-        }
-    }
+            Item { width: 16 }
 
-    Column {
-        Layout.fillWidth: true
-        spacing: 4
+            Rin.Text { text: qsTr("Progress") }
 
-        Text {
-            text: qsTr("Determinate")
-            font.pixelSize: 13
-            font.weight: Font.DemiBold
-        }
-
-        Rin.Frame {
-            Layout.fillWidth: true
-            padding: 24
-
-            RowLayout {
-                spacing: 12
-
-                Rin.ProgressBar {
-                    Layout.fillWidth: true
-                    from: 0
-                    to: 100
-                    value: progress.value
-                    state: stateModel.get(statePicker.currentIndex).state
-                }
-
-                Text { text: qsTr("Progress") }
-
-                Rin.SpinBox {
-                    id: progress
-                    from: 0
-                    to: 100
-                    stepSize: 1
-                    value: 50
-                }
+            Rin.SpinBox {
+                id: progress
+                from: 0
+                to: 100
+                stepSize: 1
+                value: 50
             }
         }
     }
@@ -94,4 +88,3 @@ ControlPage {
         ListElement { text: "Error"; state: Rin.ProgressBar.Error }
     }
 }
-

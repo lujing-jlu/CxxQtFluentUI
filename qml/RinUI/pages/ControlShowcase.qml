@@ -1,25 +1,20 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
-import "../themes"
 import "../components" as Rin
 
-Item {
-    id: root
+Rin.Frame {
+    id: frame
 
     default property alias content: controlContainer.data
     property alias showcase: showcaseContainer.data
     property alias showcaseWidth: rightPane.width
 
-    property int spacing: 4
+    spacing: 4
 
-    implicitWidth: frame.implicitWidth
-    implicitHeight: frame.implicitHeight
-
-    Rin.Frame {
-        id: frame
-        anchors.fill: parent
-    }
+    leftPadding: 0
+    rightPadding: 0
+    topPadding: 0
+    bottomPadding: 0
 
     RowLayout {
         anchors.fill: parent
@@ -30,7 +25,7 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.margins: 20
-            spacing: root.spacing
+            spacing: frame.spacing
         }
 
         Rectangle {
@@ -60,4 +55,3 @@ Item {
         }
     }
 }
-

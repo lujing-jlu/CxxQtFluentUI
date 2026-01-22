@@ -6,103 +6,102 @@ ControlPage {
     id: page
     title: qsTr("ProgressRing")
 
-    Text {
+    Rin.Text {
         Layout.fillWidth: true
         wrapMode: Text.WordWrap
-        text: qsTr("The ProgressRing has two different visual representations: Indeterminate and Determinate.")
+        text: qsTr(
+            "The ProgressRing has two different visual representations:\n" +
+            "Indeterminate - shows that a task is ongoing, but doesn't block user interaction.\n" +
+            "Determinate - shows how much progress has been made on a known amount of work."
+        )
     }
 
-    Column {
-        Layout.fillWidth: true
-        spacing: 4
-
-        Text {
-            text: qsTr("Indeterminate")
-            font.pixelSize: 13
-            font.weight: Font.DemiBold
-        }
-
-        ControlShowcase {
-            width: parent.width
-            showcaseWidth: 320
-
-            Column {
-                spacing: 12
-                padding: 24
-
-                Rin.ProgressRing {
-                    indeterminate: true
-                    state: stateModel.get(statePicker.currentIndex).state
-                    backgroundColor: colorModel.get(colorPicker.currentIndex).value
-                }
-            }
-
-            showcase: [
-                Text { text: qsTr("State") },
-                Rin.ComboBox {
-                    id: statePicker
-                    model: stateModel
-                    textRole: "text"
-                    currentIndex: 0
-                },
-                Text { text: qsTr("Background") },
-                Rin.ComboBox {
-                    id: colorPicker
-                    model: colorModel
-                    textRole: "text"
-                    currentIndex: 0
-                }
-            ]
-        }
+    Rin.Text {
+        typography: Rin.Typography.BodyStrong
+        text: qsTr("An indeterminate ProgressRing.")
     }
 
-    Column {
+    ControlShowcase {
         Layout.fillWidth: true
-        spacing: 4
 
-        Text {
-            text: qsTr("Determinate")
-            font.pixelSize: 13
-            font.weight: Font.DemiBold
+        Column {
+            width: parent.width
+            padding: 36
+            spacing: 4
+
+            Rin.ProgressRing {
+                indeterminate: true
+                state: stateModel.get(statePicker.currentIndex).state
+                backgroundColor: colorPicker.currentIndex >= 0
+                    ? colorModel.get(colorPicker.currentIndex).value
+                    : "transparent"
+            }
         }
 
-        ControlShowcase {
-            width: parent.width
-            showcaseWidth: 320
+        showcase: [
+            Rin.Text { text: qsTr("State") },
+            Rin.ComboBox {
+                id: statePicker
+                model: stateModel
+                textRole: "text"
+                currentIndex: 0
+            },
+            Rin.Text { text: qsTr("Background Color") },
+            Rin.ComboBox {
+                id: colorPicker
+                model: colorModel
+                textRole: "text"
+                currentIndex: -1
+                placeholderText: qsTr("Pick a color")
+            }
+        ]
+    }
 
-            RowLayout {
-                spacing: 12
-                Layout.alignment: Qt.AlignVCenter
+    Rin.Text {
+        typography: Rin.Typography.BodyStrong
+        text: qsTr("A determinate ProgressRing.")
+    }
 
-                Rin.ProgressRing {
-                    from: 0
-                    to: 100
-                    value: progress.value
-                    state: stateModel.get(statePicker.currentIndex).state
-                    backgroundColor: colorModel2.get(colorPicker2.currentIndex).value
-                }
+    ControlShowcase {
+        Layout.fillWidth: true
+        padding: 24
 
-                Text { text: qsTr("Progress") }
+        RowLayout {
+            spacing: 8
 
-                Rin.SpinBox {
-                    id: progress
-                    from: 0
-                    to: 100
-                    stepSize: 1
-                    value: 50
-                }
+            Rin.ProgressRing {
+                from: 0
+                to: 100
+                value: progress.value
+                state: stateModel.get(statePicker.currentIndex).state
+                backgroundColor: colorPicker2.currentIndex >= 0
+                    ? colorModel2.get(colorPicker2.currentIndex).value
+                    : "transparent"
             }
 
-            showcase: [
-                Text { text: qsTr("Background") },
-                Rin.ComboBox {
-                    id: colorPicker2
-                    model: colorModel2
-                    textRole: "text"
-                    currentIndex: 0
-                }
-            ]
+            Item { width: 16 }
+
+            Rin.Text { text: qsTr("Progress") }
+
+            Rin.SpinBox {
+                id: progress
+                from: 0
+                to: 100
+                stepSize: 1
+                value: 50
+            }
         }
+
+        showcase: [
+            Rin.Text { text: qsTr("Background Color") },
+            Rin.ComboBox {
+                id: colorPicker2
+                model: colorModel2
+                textRole: "text"
+                currentIndex: -1
+                placeholderText: qsTr("Pick a color")
+            }
+        ]
     }
 
     ListModel {
@@ -124,4 +123,3 @@ ControlPage {
         ListElement { text: "Light Gray"; value: "lightgray" }
     }
 }
-

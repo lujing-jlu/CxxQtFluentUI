@@ -16,6 +16,11 @@ QtObject {
     property int dialogMaximumWidth: 600
     property int dialogMinimumWidth: 320
 
+    // Layout tokens (match Rin-UI gallery spacing)
+    property int pageMargin: 42
+    property int pageTopSpacing: 18
+    property int sectionSpacing: 32
+
     // Font icon support
     property string fontIconSource: Qt.resolvedUrl("../assets/fonts/FluentSystemIcons-Resizable.ttf")
     property var fontIconIndex: FluentIcons.FluentIcons

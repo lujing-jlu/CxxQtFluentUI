@@ -37,6 +37,7 @@ QtObject {
                 { title: qsTr("RadioButton"), page: "RadioButtonPage", icon: "ic_fluent_radio_button_20_regular" },
                 { title: qsTr("Switch"), page: "SwitchPage", icon: "ic_fluent_toggle_left_20_regular" },
                 { title: qsTr("Slider"), page: "SliderPage", icon: "ic_fluent_slider_20_regular" },
+                { title: qsTr("RatingControl"), page: "RatingControlPage", icon: "ic_fluent_star_20_regular" },
                 { title: qsTr("ComboBox"), page: "ComboBoxPage", icon: "ic_fluent_chevron_down_20_regular" },
                 { title: qsTr("DropDownButton"), page: "DropDownButtonPage", icon: "ic_fluent_caret_down_20_regular" },
                 { title: qsTr("ColorPicker"), page: "ColorPickerPage", icon: "ic_fluent_color_20_regular" },
@@ -49,6 +50,7 @@ QtObject {
             icon: "ic_fluent_table_20_regular",
             subItems: [
                 { title: qsTr("ListView"), page: "ListViewPage", icon: "ic_fluent_text_bullet_list_20_regular" },
+                { title: qsTr("TreeView"), page: "TreeViewPage", icon: "ic_fluent_tree_deciduous_20_regular" },
                 { title: qsTr("TableView"), page: "TableViewPage", icon: "ic_fluent_table_20_regular" },
                 { title: qsTr("SettingCard"), page: "SettingCardPage", icon: "ic_fluent_settings_20_regular" }
             ]
@@ -71,6 +73,7 @@ QtObject {
             subItems: [
                 { title: qsTr("Dialog"), page: "DialogPage", icon: "ic_fluent_document_20_regular" },
                 { title: qsTr("Flyout"), page: "FlyoutPage", icon: "ic_fluent_chat_20_regular" },
+                { title: qsTr("TeachingTip"), page: "TeachingTipPage", icon: "ic_fluent_lightbulb_20_regular" },
                 { title: qsTr("Popup"), page: "PopupPage", icon: "ic_fluent_window_20_regular" }
             ]
         },
@@ -96,6 +99,7 @@ QtObject {
             page: "MenusAndToolbarsPage",
             icon: "ic_fluent_save_20_regular",
             subItems: [
+                { title: qsTr("CommandBar"), page: "CommandBarPage", icon: "ic_fluent_more_horizontal_20_regular" },
                 { title: qsTr("Menu"), page: "MenuPage", icon: "ic_fluent_text_bullet_list_20_regular" },
                 { title: qsTr("MenuBar"), page: "MenuBarPage", icon: "ic_fluent_table_simple_20_regular" }
             ]
@@ -106,6 +110,8 @@ QtObject {
             icon: "ic_fluent_navigation_20_regular",
             subItems: [
                 { title: qsTr("NavigationView"), page: "NavigationViewPage", icon: "ic_fluent_navigation_20_regular" },
+                { title: qsTr("TabView"), page: "TabViewPage", icon: "ic_fluent_tab_20_regular" },
+                { title: qsTr("BreadcrumbBar"), page: "BreadcrumbBarPage", icon: "ic_fluent_chevron_right_20_regular" },
                 { title: qsTr("Segmented"), page: "SegmentedPage", icon: "ic_fluent_pivot_20_regular" },
                 { title: qsTr("SelectorBar"), page: "SelectorBarPage", icon: "ic_fluent_pivot_20_regular" }
             ]

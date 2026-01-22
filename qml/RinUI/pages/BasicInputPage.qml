@@ -13,6 +13,7 @@ CategoryPage {
         { title: qsTr("RadioButton"), page: "RadioButtonPage", icon: "ic_fluent_radio_button_20_regular" },
         { title: qsTr("Switch"), page: "SwitchPage", icon: "ic_fluent_toggle_left_20_regular" },
         { title: qsTr("Slider"), page: "SliderPage", icon: "ic_fluent_slider_20_regular" },
+        { title: qsTr("RatingControl"), page: "RatingControlPage", icon: "ic_fluent_star_20_regular" },
         { title: qsTr("ComboBox"), page: "ComboBoxPage", icon: "ic_fluent_chevron_down_20_regular" },
         { title: qsTr("DropDownButton"), page: "DropDownButtonPage", icon: "ic_fluent_caret_down_20_regular" },
         { title: qsTr("ColorPicker"), page: "ColorPickerPage", icon: "ic_fluent_color_20_regular" },

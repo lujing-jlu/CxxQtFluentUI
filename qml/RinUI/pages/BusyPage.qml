@@ -7,7 +7,7 @@ ControlPage {
     title: qsTr("BusyIndicator")
     property bool isRunning: true
 
-    Text {
+    Rin.Text {
         Layout.fillWidth: true
         wrapMode: Text.WordWrap
         text: qsTr("A BusyIndicator indicates activity when progress cannot be determined.")
@@ -17,10 +17,9 @@ ControlPage {
         Layout.fillWidth: true
         spacing: 4
 
-        Text {
+        Rin.Text {
+            typography: Rin.Typography.BodyStrong
             text: qsTr("Different Sizes")
-            font.pixelSize: 13
-            font.weight: Font.DemiBold
         }
 
         Rin.Frame {
@@ -38,11 +37,13 @@ ControlPage {
                         Rin.BusyIndicator {
                             size: modelData
                             running: true
+                            Layout.preferredWidth: modelData
+                            Layout.preferredHeight: modelData
                         }
 
-                        Text {
+                        Rin.Text {
+                            typography: Rin.Typography.Caption
                             text: modelData + "px"
-                            font.pixelSize: 12
                             color: themeManager.currentTheme.colors.textSecondaryColor
                             Layout.alignment: Qt.AlignHCenter
                         }
@@ -56,15 +57,13 @@ ControlPage {
         Layout.fillWidth: true
         spacing: 4
 
-        Text {
+        Rin.Text {
+            typography: Rin.Typography.BodyStrong
             text: qsTr("Interactive")
-            font.pixelSize: 13
-            font.weight: Font.DemiBold
         }
 
         ControlShowcase {
-            width: parent.width
-            showcaseWidth: 300
+            Layout.fillWidth: true
 
             Rin.BusyIndicator {
                 size: 64
@@ -81,4 +80,3 @@ ControlPage {
         }
     }
 }
-

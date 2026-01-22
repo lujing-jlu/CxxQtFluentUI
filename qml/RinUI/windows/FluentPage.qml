@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
 import "../themes"
 import "../components"
+import "../utils"
 
 Page {
     id: fluentPage
@@ -65,7 +66,7 @@ Page {
         ColumnLayout {
             id: container
             anchors.top: headerContainer.bottom
-            anchors.topMargin: 18
+            anchors.topMargin: Utils.pageTopSpacing
             anchors.horizontalCenter: parent.horizontalCenter
             width: Math.min(fluentPage.width - fluentPage.pageHorizontalPadding * 2, fluentPage.wrapperWidth)
             spacing: 14

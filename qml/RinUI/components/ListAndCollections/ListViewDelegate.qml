@@ -3,7 +3,7 @@ import QtQuick.Controls.Basic 2.15
 import QtQuick.Layouts 2.15
 import "../../themes"
 import "../../utils"
-import "../../components"
+import "../../components" as Rin
 
 
 ItemDelegate {
@@ -14,7 +14,7 @@ ItemDelegate {
     focusPolicy: Qt.StrongFocus
 
     // accessibility
-    FocusIndicator {
+    Rin.FocusIndicator {
         control: parent
     }
 
@@ -23,9 +23,7 @@ ItemDelegate {
     property alias rightArea: rightArea.data
     property alias contents: contents.data
 
-    contentItem: Item {}
-
-    RowLayout {
+    contentItem: RowLayout {
         id: contents
         anchors.fill: parent
         anchors.leftMargin: 5 + 11
@@ -40,15 +38,14 @@ ItemDelegate {
         ColumnLayout {
             id: middleArea
             Layout.fillHeight: true
-            Text {
-                visible: text.text.length > 0
+
+            Rin.Text {
+                id: titleText
+                visible: titleText.text.length > 0
                 Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-                id: text
-                font.pixelSize: 14
+                typography: Typography.Body
                 wrapMode: Text.Wrap
-                text: {
-                    delegate.text
-                }
+                text: delegate.text
             }
         }
 
@@ -82,7 +79,7 @@ ItemDelegate {
         }
 
         // 选择指示器
-        Indicator {
+        Rin.Indicator {
             currentItemHeight: delegate.height
             visible: highlighted
         }

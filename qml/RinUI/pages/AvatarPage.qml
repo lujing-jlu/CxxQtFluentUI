@@ -1,239 +1,117 @@
 import QtQuick 2.15
-import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
-import "../themes"
 import "../components" as Rin
 
-ScrollView {
-    id: root
-    property var navigationView: null
-    Layout.fillWidth: true
-    Layout.fillHeight: true
-    clip: true
-    contentWidth: availableWidth
+ControlPage {
+    id: page
+    title: qsTr("Avatar")
 
-    ColumnLayout {
-        width: parent.width
-        spacing: 24
+    Text {
+        Layout.fillWidth: true
+        wrapMode: Text.WordWrap
+        text: qsTr("Avatars display a user picture, initials, or a fallback icon.")
+    }
 
-        // Header
-        ColumnLayout {
-            Layout.fillWidth: true
-            Layout.margins: 40
-            spacing: 8
+    Column {
+        Layout.fillWidth: true
+        spacing: 4
 
-            Text {
-                text: "Avatar"
-                font.pixelSize: 32
-                font.weight: Font.Bold
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
-            }
-
-            Text {
-                text: "User profile pictures and avatars with customizable styles"
-                font.pixelSize: 14
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.textSecondaryColor : "#6c6c6c"
-            }
+        Text {
+            text: qsTr("Size variants.")
+            font.pixelSize: 13
+            font.weight: Font.DemiBold
         }
 
-        // Size Variants
-        ColumnLayout {
+        Rin.Frame {
             Layout.fillWidth: true
-            Layout.leftMargin: 40
-            Layout.rightMargin: 40
-            spacing: 16
+            height: 110
 
-            Text {
-                text: "Size Variants"
-                font.pixelSize: 18
-                font.weight: Font.Medium
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
-            }
+            RowLayout {
+                anchors.centerIn: parent
+                spacing: 24
 
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 120
-                radius: 8
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.cardColor : "#ffffff"
-                border.width: 1
-                border.color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.cardBorderColor : "#e5e5e5"
-
-                RowLayout {
-                    anchors.centerIn: parent
-                    spacing: 24
-
-                    Rin.Avatar {
-                        size: 32
-                        text: "JD"
-                    }
-
-                    Rin.Avatar {
-                        size: 48
-                        text: "John Doe"
-                    }
-
-                    Rin.Avatar {
-                        size: 64
-                        text: "Jane Smith"
-                    }
-
-                    Rin.Avatar {
-                        size: 96
-                        text: "Alex Johnson"
-                    }
-                }
+                Rin.Avatar { size: 32; text: "JD" }
+                Rin.Avatar { size: 48; text: "John Doe" }
+                Rin.Avatar { size: 64; text: "Jane Smith" }
+                Rin.Avatar { size: 96; text: "Alex Johnson" }
             }
         }
+    }
 
-        // Initials Style
-        ColumnLayout {
-            Layout.fillWidth: true
-            Layout.leftMargin: 40
-            Layout.rightMargin: 40
-            spacing: 16
+    Column {
+        Layout.fillWidth: true
+        spacing: 4
 
-            Text {
-                text: "Initials Style"
-                font.pixelSize: 18
-                font.weight: Font.Medium
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
-            }
-
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 120
-                radius: 8
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.cardColor : "#ffffff"
-                border.width: 1
-                border.color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.cardBorderColor : "#e5e5e5"
-
-                RowLayout {
-                    anchors.centerIn: parent
-                    spacing: 24
-
-                    Rin.Avatar {
-                        size: 64
-                        text: "A"
-                    }
-
-                    Rin.Avatar {
-                        size: 64
-                        text: "BC"
-                    }
-
-                    Rin.Avatar {
-                        size: 64
-                        text: "Jane Doe"
-                    }
-
-                    Rin.Avatar {
-                        size: 64
-                        text: "Dr. Smith"
-                    }
-                }
-            }
+        Text {
+            text: qsTr("Initials style.")
+            font.pixelSize: 13
+            font.weight: Font.DemiBold
         }
 
-        // Icon Style
-        ColumnLayout {
+        Rin.Frame {
             Layout.fillWidth: true
-            Layout.leftMargin: 40
-            Layout.rightMargin: 40
-            spacing: 16
+            height: 110
 
-            Text {
-                text: "Icon Style (Default)"
-                font.pixelSize: 18
-                font.weight: Font.Medium
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
-            }
+            RowLayout {
+                anchors.centerIn: parent
+                spacing: 24
 
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 100
-                radius: 8
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.cardColor : "#ffffff"
-                border.width: 1
-                border.color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.cardBorderColor : "#e5e5e5"
-
-                RowLayout {
-                    anchors.centerIn: parent
-                    spacing: 24
-
-                    Rin.Avatar {
-                        size: 48
-                    }
-
-                    Rin.Avatar {
-                        size: 64
-                    }
-
-                    Rin.Avatar {
-                        size: 80
-                    }
-                }
+                Rin.Avatar { size: 64; text: "A" }
+                Rin.Avatar { size: 64; text: "BC" }
+                Rin.Avatar { size: 64; text: "Jane Doe" }
+                Rin.Avatar { size: 64; text: "Dr. Smith" }
             }
         }
+    }
 
-        // Disabled State
-        ColumnLayout {
+    Column {
+        Layout.fillWidth: true
+        spacing: 4
+
+        Text {
+            text: qsTr("Icon fallback.")
+            font.pixelSize: 13
+            font.weight: Font.DemiBold
+        }
+
+        Rin.Frame {
             Layout.fillWidth: true
-            Layout.leftMargin: 40
-            Layout.rightMargin: 40
-            Layout.bottomMargin: 40
-            spacing: 16
+            height: 95
 
-            Text {
-                text: "Disabled State"
-                font.pixelSize: 18
-                font.weight: Font.Medium
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
+            RowLayout {
+                anchors.centerIn: parent
+                spacing: 24
+
+                Rin.Avatar { size: 48 }
+                Rin.Avatar { size: 64 }
+                Rin.Avatar { size: 80 }
             }
+        }
+    }
 
-            Rectangle {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 100
-                radius: 8
-                color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.cardColor : "#ffffff"
-                border.width: 1
-                border.color: themeManager.currentTheme && themeManager.currentTheme.colors
-                    ? themeManager.currentTheme.colors.cardBorderColor : "#e5e5e5"
+    Column {
+        Layout.fillWidth: true
+        spacing: 4
 
-                RowLayout {
-                    anchors.centerIn: parent
-                    spacing: 24
+        Text {
+            text: qsTr("Disabled state.")
+            font.pixelSize: 13
+            font.weight: Font.DemiBold
+        }
 
-                    Rin.Avatar {
-                        size: 48
-                        text: "AB"
-                        enabled: false
-                    }
+        Rin.Frame {
+            Layout.fillWidth: true
+            height: 95
 
-                    Rin.Avatar {
-                        size: 64
-                        text: "CD"
-                        enabled: false
-                    }
+            RowLayout {
+                anchors.centerIn: parent
+                spacing: 24
 
-                    Rin.Avatar {
-                        size: 80
-                        enabled: false
-                    }
-                }
+                Rin.Avatar { size: 48; text: "JD"; enabled: false }
+                Rin.Avatar { size: 64; text: "Jane Doe"; enabled: false }
+                Rin.Avatar { size: 80; enabled: false }
             }
         }
     }
 }
+

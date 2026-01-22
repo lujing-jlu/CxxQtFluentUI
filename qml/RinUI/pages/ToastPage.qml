@@ -6,7 +6,7 @@ ControlPage {
     id: page
     title: qsTr("Toast")
 
-    Text {
+    Rin.Text {
         Layout.fillWidth: true
         wrapMode: Text.WordWrap
         text: qsTr("Lightweight notification messages that appear briefly and dismiss automatically.")
@@ -16,25 +16,25 @@ ControlPage {
         Layout.fillWidth: true
         spacing: 4
 
-        Text {
+        Rin.Text {
+            typography: Rin.Typography.BodyStrong
             text: qsTr("Popup (FloatLayer)")
-            font.pixelSize: 13
-            font.weight: Font.DemiBold
         }
 
         Rin.Frame {
             Layout.fillWidth: true
             padding: 16
 
-            RowLayout {
+            Flow {
+                width: parent.width
                 spacing: 12
 
                 Rin.ComboBox {
                     id: positionPicker
                     model: positionModel
                     textRole: "text"
-                    currentIndex: 7 // BottomRight
-                    Layout.preferredWidth: 160
+                    currentIndex: 5 // BottomRight
+                    width: 160
                 }
 
                 Rin.ComboBox {
@@ -42,7 +42,7 @@ ControlPage {
                     model: severityModel
                     textRole: "text"
                     currentIndex: 0
-                    Layout.preferredWidth: 140
+                    width: 140
                 }
 
                 Rin.SpinBox {
@@ -51,32 +51,14 @@ ControlPage {
                     to: 10000
                     stepSize: 500
                     value: 2000
-                    Layout.preferredWidth: 120
+                    width: 120
                 }
 
-                Rin.CheckBox {
-                    id: iconVisible
-                    text: qsTr("Icon")
-                    checked: true
-                }
+                Rin.CheckBox { id: iconVisibleCheckBox; text: qsTr("Icon"); checked: true }
+                Rin.CheckBox { id: closableCheckBox; text: qsTr("Closable"); checked: true }
 
-                Rin.CheckBox {
-                    id: closable
-                    text: qsTr("Closable")
-                    checked: true
-                }
-
-                Rin.TextField {
-                    id: toastTitle
-                    placeholderText: qsTr("Title")
-                    Layout.preferredWidth: 120
-                }
-
-                Rin.TextField {
-                    id: toastText
-                    placeholderText: qsTr("Text")
-                    Layout.fillWidth: true
-                }
+                Rin.TextField { id: toastTitle; placeholderText: qsTr("Title"); width: 140 }
+                Rin.TextField { id: toastText; placeholderText: qsTr("Text"); width: 260 }
 
                 Rin.Button {
                     text: qsTr("Show")
@@ -98,8 +80,8 @@ ControlPage {
             position: positionModel.get(positionPicker.currentIndex).pos
             severity: severityModel.get(severityPicker.currentIndex).state
             timeout: timeoutPicker.value
-            iconVisible: iconVisible.checked
-            closable: closable.checked
+            iconVisible: iconVisibleCheckBox.checked
+            closable: closableCheckBox.checked
             title: toastTitle.text
             text: toastText.text
         }
@@ -123,4 +105,3 @@ ControlPage {
         ListElement { text: "BottomRight"; pos: Rin.Position.BottomRight }
     }
 }
-

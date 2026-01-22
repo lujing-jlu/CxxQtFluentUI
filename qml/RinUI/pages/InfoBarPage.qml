@@ -6,7 +6,7 @@ ControlPage {
     id: page
     title: qsTr("InfoBar")
 
-    Text {
+    Rin.Text {
         Layout.fillWidth: true
         wrapMode: Text.WordWrap
         text: qsTr("Use an InfoBar to inform users of, acknowledge, or take action on changed application states.")
@@ -16,15 +16,14 @@ ControlPage {
         Layout.fillWidth: true
         spacing: 4
 
-        Text {
-            text: qsTr("Severity")
-            font.pixelSize: 13
-            font.weight: Font.DemiBold
+        Rin.Text {
+            typography: Rin.Typography.BodyStrong
+            text: qsTr("A closable InfoBar with options to change its Severity")
         }
 
         ControlShowcase {
-            width: parent.width
-            showcaseWidth: 320
+            Layout.fillWidth: true
+            padding: 48
 
             Rin.InfoBar {
                 width: parent.width
@@ -40,7 +39,7 @@ ControlPage {
                     text: qsTr("Is Open")
                     checked: true
                 },
-                Text { text: qsTr("Severity") },
+                Rin.Text { text: qsTr("Severity") },
                 Rin.ComboBox {
                     id: severityPicker
                     model: severityModel
@@ -55,15 +54,14 @@ ControlPage {
         Layout.fillWidth: true
         spacing: 4
 
-        Text {
-            text: qsTr("Icon & Close Button")
-            font.pixelSize: 13
-            font.weight: Font.DemiBold
+        Rin.Text {
+            typography: Rin.Typography.BodyStrong
+            text: qsTr("A closeable InfoBar with options to display the close button and icon")
         }
 
         ControlShowcase {
-            width: parent.width
-            showcaseWidth: 320
+            Layout.fillWidth: true
+            padding: 48
 
             Rin.InfoBar {
                 width: parent.width
@@ -99,10 +97,9 @@ ControlPage {
         Layout.fillWidth: true
         spacing: 4
 
-        Text {
-            text: qsTr("Popup (FloatLayer)")
-            font.pixelSize: 13
-            font.weight: Font.DemiBold
+        Rin.Text {
+            typography: Rin.Typography.BodyStrong
+            text: qsTr("InfoBar with different popup positions & styles")
         }
 
         Rin.Frame {

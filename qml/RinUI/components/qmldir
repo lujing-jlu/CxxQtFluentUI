@@ -8,6 +8,8 @@ Segmented 1.0 Navigation/Segmented.qml
 SegmentedItem 1.0 Navigation/SegmentedItem.qml
 SelectorBar 1.0 Navigation/SelectorBar.qml
 SelectorBarItem 1.0 Navigation/SelectorBarItem.qml
+TabView 1.0 Navigation/TabView.qml
+BreadcrumbBar 1.0 Navigation/BreadcrumbBar.qml
 Button 1.0 Button.qml
 ToolButton 1.0 ToolButton.qml
 TextField 1.0 TextField.qml
@@ -27,6 +29,7 @@ MenuBar 1.0 MenusAndToolbars/MenuBar.qml
 MenuItem 1.0 MenusAndToolbars/MenuItem.qml
 MenuItemGroup 1.0 MenusAndToolbars/MenuItemGroup.qml
 MenuSeparator 1.0 MenusAndToolbars/MenuSeparator.qml
+CommandBar 1.0 MenusAndToolbars/CommandBar.qml
 Dialog 1.0 Dialog.qml
 Frame 1.0 Frame.qml
 Icon 1.0 Icon.qml
@@ -49,6 +52,7 @@ SettingCard 1.0 ListAndCollections/SettingCard.qml
 DialogButtonBox 1.0 DialogsAndFlyouts/DialogButtonBox.qml
 Flyout 1.0 DialogsAndFlyouts/Flyout.qml
 FlyoutDialog 1.0 DialogsAndFlyouts/Dialog.qml
+TeachingTip 1.0 DialogsAndFlyouts/TeachingTip.qml
 InfoBadge 1.0 StatusAndInfo/InfoBadge.qml
 InfoBar 1.0 StatusAndInfo/InfoBar.qml
 Toast 1.0 StatusAndInfo/Toast.qml
@@ -65,6 +69,7 @@ ToolSeparator 1.0 MenusAndToolbars/ToolSeparator.qml
 HyperlinkButton 1.0 BasicInput/HyperlinkButton.qml
 RoundButton 1.0 BasicInput/RoundButton.qml
 PillButton 1.0 BasicInput/PillButton.qml
+RatingControl 1.0 BasicInput/RatingControl.qml
 PickerView 1.0 DateAndTime/PickerView.qml
 CalendarDatePicker 1.0 DateAndTime/CalendarDatePicker.qml
 DatePicker 1.0 DateAndTime/DatePicker.qml
@@ -76,4 +81,5 @@ ListView 1.0 ListAndCollections/ListView.qml
 ListViewDelegate 1.0 ListAndCollections/ListViewDelegate.qml
 TableView 1.0 ListAndCollections/TableView.qml
 TableViewDelegate 1.0 ListAndCollections/TableViewDelegate.qml
+TreeView 1.0 ListAndCollections/TreeView.qml
 Popup 1.0 DialogsAndFlyouts/Popup.qml

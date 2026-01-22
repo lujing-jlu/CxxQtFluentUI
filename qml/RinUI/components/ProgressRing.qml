@@ -18,8 +18,8 @@ QQC.ProgressBar {
         Error
     }
 
-    implicitWidth: 56
-    implicitHeight: 56
+    implicitWidth: size
+    implicitHeight: size
 
     property int strokeWidth: 6
     property int size: 56

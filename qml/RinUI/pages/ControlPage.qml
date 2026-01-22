@@ -15,10 +15,12 @@ FluentPage {
     property var navigationView: null
     property var floatLayer: null
     property string badgeText: ""
+    property var badgeSeverity: Rin.Severity.Info
 
     extraHeaderItems: [
         Rin.InfoBadge {
             text: root.badgeText
+            severity: root.badgeSeverity
             visible: root.badgeText.length > 0
         }
     ]

@@ -1,28 +1,17 @@
 import QtQuick 2.15
 import QtQuick.Controls.Basic 2.15
 import "../../themes"
-import "../../utils"
+import "../../components"
 
 Switch {
     id: root
 
-    property var themeColors: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors : null
-    property var themeAppearance: themeManager.currentTheme ? themeManager.currentTheme.appearance : null
-
     implicitHeight: 20
 
-    property color primaryColor: themeColors ? themeColors.primaryColor : "#0078D4"
-    property color backgroundColor: themeColors ? themeColors.controlSecondaryColor : Qt.alpha("#F9F9F9", 0.5)
+    property color backgroundColor: Theme.currentTheme.colors.controlSecondaryColor
+    property color primaryColor: Theme.currentTheme.colors.primaryColor
     property string checkedText: qsTr("On")
     property string uncheckedText: qsTr("Off")
-
-    readonly property color textOnAccentColor: themeColors ? themeColors.textOnAccentColor : "#ffffff"
-    readonly property color disabledColor: themeColors ? themeColors.disabledColor : "#000000"
-    readonly property color controlSecondaryColor: themeColors ? themeColors.controlSecondaryColor : Qt.alpha("#F9F9F9", 0.5)
-    readonly property color controlTertiaryColor: themeColors ? themeColors.controlTertiaryColor : Qt.alpha("#F9F9F9", 0.3)
-    readonly property color controlBorderStrongColor: themeColors ? themeColors.controlBorderStrongColor : Qt.alpha("#000000", 0.6063)
-
-    readonly property int borderWidth: themeAppearance ? themeAppearance.borderWidth : 1
 
     // accessibility
     FocusIndicator {
@@ -36,11 +25,11 @@ Switch {
         height: 20
         radius: height / 2
         color: checked ? primaryColor :
-            hovered ? controlTertiaryColor : backgroundColor
+            hovered ? Theme.currentTheme.colors.controlTertiaryColor : backgroundColor
 
         // border
-        border.color: checked ? "transparent" : controlBorderStrongColor
-        border.width: borderWidth
+        border.color: checked ? "transparent" : Theme.currentTheme.colors.controlBorderStrongColor
+        border.width: Theme.currentTheme.appearance.borderWidth
 
         Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }
     }
@@ -54,7 +43,7 @@ Switch {
 
         anchors.verticalCenter: background.verticalCenter
         radius: height / 2
-        color: checked ? textOnAccentColor : controlBorderStrongColor
+        color: checked ? Theme.currentTheme.colors.textOnAccentColor : Theme.currentTheme.colors.controlBorderStrongColor
 
         Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }
 
@@ -69,7 +58,7 @@ Switch {
     contentItem: Row {
         anchors.fill: parent
         spacing: 12
-        Rectangle { width: 40; height: 20; color: "transparent" }
+        Rectangle { width: 40; height: 20; color: "transparent" }  // placeholder
 
         Text {
             text: (root.text === '') ? root.checked ? checkedText : uncheckedText : root.text
@@ -84,7 +73,7 @@ Switch {
             PropertyChanges {
                 target: root
                 opacity: 0.2169
-                primaryColor: disabledColor
+                primaryColor: Theme.currentTheme.colors.disabledColor
             }
         },
         State {

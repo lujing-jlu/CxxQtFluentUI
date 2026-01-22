@@ -1,25 +1,12 @@
 import QtQuick 2.15
 import QtQuick.Controls.Basic 2.15
 import "../../themes"
-import "../../utils"
+import "../../components"
 
 CheckBox {
     id: root
-
-    property var themeColors: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors : null
-    property var themeAppearance: themeManager.currentTheme ? themeManager.currentTheme.appearance : null
-
-    property color primaryColor: themeColors ? themeColors.primaryColor : "#0078D4"
-    property color backgroundColor: themeColors ? themeColors.controlSecondaryColor : Qt.alpha("#F9F9F9", 0.5)
-
-    readonly property color textOnAccentColor: themeColors ? themeColors.textOnAccentColor : "#ffffff"
-    readonly property color disabledColor: themeColors ? themeColors.disabledColor : "#000000"
-    readonly property color controlSecondaryColor: themeColors ? themeColors.controlSecondaryColor : Qt.alpha("#F9F9F9", 0.5)
-    readonly property color controlTertiaryColor: themeColors ? themeColors.controlTertiaryColor : Qt.alpha("#F9F9F9", 0.3)
-    readonly property color controlBorderStrongColor: themeColors ? themeColors.controlBorderStrongColor : Qt.alpha("#000000", 0.6063)
-
-    readonly property int buttonRadius: themeAppearance ? themeAppearance.buttonRadius : 5
-    readonly property int borderWidth: themeAppearance ? themeAppearance.borderWidth : 1
+    property color backgroundColor: Theme.currentTheme.colors.controlSecondaryColor
+    property color primaryColor: Theme.currentTheme.colors.primaryColor
 
     spacing: 8
 
@@ -42,27 +29,39 @@ CheckBox {
         height: 20
         x: root.leftPadding
         y: parent.height / 2 - height / 2
-        radius: buttonRadius
+        radius: Theme.currentTheme.appearance.buttonRadius
         color: checkState !== Qt.Unchecked ? primaryColor :
-            hovered ? controlTertiaryColor : backgroundColor
+            hovered ? Theme.currentTheme.colors.controlTertiaryColor : backgroundColor
         // border
-        border.color: checkState !== Qt.Unchecked ? "transparent" : controlBorderStrongColor
-        border.width: borderWidth
+        border.color: checkState !== Qt.Unchecked ? "transparent" : Theme.currentTheme.colors.controlBorderStrongColor
+        border.width: Theme.currentTheme.appearance.borderWidth
 
         Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }
         Behavior on opacity { NumberAnimation { duration: Utils.appearanceSpeed; easing.type: Easing.OutQuart } }
 
-        // indicator checkmark using Unicode
-        Text {
-            id: checkmark
-            anchors.centerIn: parent
-            text: checkState !== Qt.PartiallyChecked ? "✓" : "−"
-            color: textOnAccentColor
-            font.pixelSize: 14
-            font.bold: true
-            visible: checkState !== Qt.Unchecked
+        // indicator mask with IconWidget
+        Rectangle {
+            id: mask
+            anchors.verticalCenter: background.verticalCenter
+            anchors.left: background.left
+            anchors.leftMargin: 4
+            width: checkState !== Qt.Unchecked ? 12 : 0
+            height: 12
+            clip: true
+            color: "transparent"
 
-            Behavior on opacity { NumberAnimation { duration: Utils.appearanceSpeed; easing.type: Easing.OutQuart } }
+            Behavior on width { NumberAnimation { duration: Utils.animationSpeedMiddle; easing.type: Easing.OutQuint } }
+
+            IconWidget {
+                id: indicator
+                icon: checkState !== Qt.PartiallyChecked
+                    ? "ic_fluent_checkmark_20_filled" :
+                    "ic_fluent_subtract_20_regular"
+                size: 12
+                color: Theme.currentTheme.colors.textOnAccentColor
+
+                Behavior on color { ColorAnimation { duration: Utils.appearanceSpeed; easing.type: Easing.OutQuart } }
+            }
         }
     }
 
@@ -71,12 +70,12 @@ CheckBox {
     // states
     states: [
         State {
-            name: "disabled"
+        name: "disabled"
             when: !enabled
             PropertyChanges {
                 target: root
                 opacity: 0.4
-                primaryColor: disabledColor
+                primaryColor: Theme.currentTheme.colors.disabledColor
             }
         },
         State {

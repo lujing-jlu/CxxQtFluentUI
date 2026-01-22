@@ -1,38 +1,59 @@
 import QtQuick 2.15
+import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Basic 2.15
-import "../../utils" as Utils
-import "../../components" as Rin
+import "../../themes"
+import "../../utils"
+import "../../components"
 
 TextField {
     id: root
 
     property bool frameless: false
     property bool editable: true
+    property color primaryColor: Theme.currentTheme.colors.primaryColor
     property bool clearEnabled: true
-
-    // Fallback colors
-    property color fallbackPrimaryColor: "#0078D4"
-    property color fallbackTextColor: "#1b1b1b"
-    property color fallbackTextSecondaryColor: Qt.alpha("#000000", 0.6)
-    property color fallbackTextTertialyColor: Qt.alpha("#000000", 0.4)
-    property color fallbackTextControlBorderColor: "#8a8a8a"
-    property color fallbackControlColor: "#ffffff"
-    property color fallbackControlSecondaryColor: Qt.alpha("#000000", 0.04)
-    property color fallbackControlInputActiveColor: "#ffffff"
-    property color fallbackControlBorderColor: "#8a8a8a"
 
     selectByMouse: true
     enabled: editable
+
+    // Right-click context menu
+    TextInputMenu {
+        id: contextMenu
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.RightButton
+        propagateComposedEvents: false
+        onPressed: (mouse) => {
+            if (mouse.button === Qt.RightButton)
+                contextMenu.popup(mouse.scenePosition)
+            mouse.accepted = true
+        }
+        cursorShape: Qt.IBeamCursor
+    }
 
     // Background
     background: Rectangle {
         id: background
         anchors.fill: parent
-        radius: 4
-        color: root.frameless ? "transparent" : controlColor
+        radius: Theme.currentTheme.appearance.buttonRadius
+        color: frameless ? "transparent" : Theme.currentTheme.colors.controlColor
         clip: true
-        border.width: root.activeFocus ? 2 : 1
-        border.color: root.activeFocus ? primaryColor : controlBorderColor
+        border.width: Theme.currentTheme.appearance.borderWidth
+        border.color: frameless ? root.activeFocus ? Theme.currentTheme.colors.controlBorderColor : "transparent" :
+            Theme.currentTheme.colors.controlBorderColor
+
+        // Clipping mask
+        layer.enabled: true
+        layer.smooth: true
+        layer.effect: OpacityMask {
+            maskSource: Rectangle {
+                width: background.width
+                height: background.height
+                radius: background.radius
+            }
+        }
 
         // Bottom indicator
         Rectangle {
@@ -40,59 +61,32 @@ TextField {
             width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
-            radius: 99
-            height: root.activeFocus ? 2 : 1
-            color: root.activeFocus ? primaryColor : textControlBorderColor
+            radius: 999
+            height: root.activeFocus ? Theme.currentTheme.appearance.borderWidth * 2 : Theme.currentTheme.appearance.borderWidth
+            color: root.activeFocus ? primaryColor : frameless ? "transparent" : Theme.currentTheme.colors.textControlBorderColor
 
-            Behavior on color { NumberAnimation { duration: 150; easing.type: Easing.OutQuart } }
-            Behavior on height { NumberAnimation { duration: 150; easing.type: Easing.OutQuart } }
+            Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint } }
+            Behavior on height { NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint } }
         }
     }
 
-    Behavior on opacity { NumberAnimation { duration: 150; easing.type: Easing.OutQuint } }
+    Behavior on opacity { NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint } }
 
     // Font
-    font.pixelSize: 14
-    font.family: Utils.FontIconLoader.fontFamily
-    color: textColor
-    placeholderTextColor: textSecondaryColor
+    font.pixelSize: Theme.currentTheme.typography.bodySize
+    font.family: Utils.fontFamily
+
+    selectionColor: Theme.currentTheme.colors.primaryColor
+    color: Theme.currentTheme.colors.textColor
+    placeholderTextColor: Theme.currentTheme.colors.textSecondaryColor
 
     leftPadding: 12
     rightPadding: (clearEnabled && clearBtn.visible ? 28 : 12)
-    topPadding: 6
-    bottomPadding: 6
-
-    // Color accessors
-    function getColor(name) {
-        if (themeManager.currentTheme && themeManager.currentTheme && themeManager.currentTheme.colors[name]) {
-            return themeManager.currentTheme.colors[name];
-        }
-        switch(name) {
-            case "primaryColor": return fallbackPrimaryColor;
-            case "textColor": return fallbackTextColor;
-            case "textSecondaryColor": return fallbackTextSecondaryColor;
-            case "textTertialyColor": return fallbackTextTertialyColor;
-            case "textControlBorderColor": return fallbackTextControlBorderColor;
-            case "controlColor": return fallbackControlColor;
-            case "controlSecondaryColor": return fallbackControlSecondaryColor;
-            case "controlInputActiveColor": return fallbackControlInputActiveColor;
-            case "controlBorderColor": return fallbackControlBorderColor;
-            default: return fallbackTextColor;
-        }
-    }
-
-    property color primaryColor: getColor("primaryColor")
-    property color textColor: getColor("textColor")
-    property color textSecondaryColor: getColor("textSecondaryColor")
-    property color textControlBorderColor: getColor("textControlBorderColor")
-    property color controlColor: getColor("controlColor")
-    property color controlSecondaryColor: getColor("controlSecondaryColor")
-    property color controlInputActiveColor: getColor("controlInputActiveColor")
-    property color controlBorderColor: getColor("controlBorderColor")
-    property color textTertialyColor: getColor("textTertialyColor")
+    topPadding: 4
+    bottomPadding: 7
 
     // Clear button
-    Rin.Button {
+    Button {
         id: clearBtn
         anchors.right: parent.right
         anchors.margins: 4
@@ -104,23 +98,19 @@ TextField {
         flat: true
         highlighted: true
         visible: clearEnabled && root.text && root.text.length > 0 && root.activeFocus
-        onClicked: root.text = ""
-
-        background: Rectangle {
-            radius: 4
-        }
-
-        contentItem: Rin.Icon {
+        onClicked: parent.text = ""
+        contentItem: Icon {
             name: "ic_fluent_dismiss_20_regular"
             size: 14
-            color: root.textTertialyColor
+            color: Theme.currentTheme.colors.textTertialyColor
         }
+        radius: Theme.currentTheme.appearance.smallRadius
     }
 
     // States
     states: [
         State {
-            name: "disabled"
+        name: "disabled"
             when: !enabled
             PropertyChanges {
                 target: background;
@@ -128,11 +118,11 @@ TextField {
             }
         },
         State {
-            name: "pressed"
-            when: root.activeFocus
+            name: "pressed&focused"
+            when: activeFocus
             PropertyChanges {
                 target: background;
-                color: controlInputActiveColor
+                color: Theme.currentTheme.colors.controlInputActiveColor
             }
         },
         State {
@@ -140,7 +130,7 @@ TextField {
             when: hovered
             PropertyChanges {
                 target: background;
-                color: controlSecondaryColor
+                color: Theme.currentTheme.colors.controlSecondaryColor
             }
         }
     ]

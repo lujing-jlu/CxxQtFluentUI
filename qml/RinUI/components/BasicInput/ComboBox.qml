@@ -1,63 +1,72 @@
 import QtQuick 2.15
 import QtQuick.Controls.Basic 2.15
-import "../../utils" as Utils
-import "../../components" as Rin
+import Qt5Compat.GraphicalEffects
+import "../../themes"
+import "../../components"
 
 ComboBox {
     id: root
 
-    // Use theme colors directly (参考 Rin-UI)
-    property color primaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.primaryColor : "#0078D4"
-    property color controlColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlColor : "#ffffff"
-    property color controlBorderColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlBorderColor : "#8a8a8a"
-    property color controlBottomBorderColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlBottomBorderColor : "#8a8a8a"
-    property color controlSecondaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlSecondaryColor : Qt.alpha("#000000", 0.04)
-    property color controlTertiaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlTertiaryColor : Qt.alpha("#000000", 0.08)
-    property color textColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
-    property color textSecondaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textSecondaryColor : Qt.alpha("#000000", 0.6)
-
-    property int buttonRadius: themeManager.currentTheme ? themeManager.currentTheme.appearance.buttonRadius : 4
-    property int borderWidth: themeManager.currentTheme ? themeManager.currentTheme.appearance.borderWidth : 1
-
+    // properties
+    property real controlRadius: Theme.currentTheme.appearance.buttonRadius
     property string placeholderText: ""
     property alias maximumHeight: menu.maximumHeight
+    property string headerText: ""
 
     implicitWidth: Math.max(contentItem.implicitWidth + 50, 60)
+
     padding: 0
 
-    // Focus indicator
-    Rin.Indicator {
-        id: focusIndicator
-        anchors.left: parent.left
-        anchors.leftMargin: 2
-        anchors.verticalCenter: parent.verticalCenter
-        visible: root.activeFocus
+    // accessibility
+    FocusIndicator {
+        Indicator {
+            id: focusIndicator
+            anchors.left: parent.left
+            anchors.leftMargin: 2
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        anchors.margins: -1
+        control: parent
     }
 
-    // Background
+    // background
     background: Rectangle {
         id: background
         anchors.fill: parent
-        color: root.controlColor
-        radius: root.buttonRadius
-        border.width: root.borderWidth
-        border.color: root.controlBorderColor
+        color: Theme.currentTheme.colors.controlColor
+        radius: Theme.currentTheme.appearance.buttonRadius
 
-        // Bottom border indicator
+        border.width: Theme.currentTheme.appearance.borderWidth
+        border.color: Theme.currentTheme.colors.controlBorderColor
+
+        // clipping mask
+        layer.enabled: true
+        layer.smooth: true
+        layer.effect: OpacityMask {
+            maskSource: Rectangle {
+                width: background.width
+                height: background.height
+                radius: background.radius
+            }
+        }
+
+        // bottom border
         Rectangle {
             id: indicator
             width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
-            height: root.borderWidth
-            color: root.controlBottomBorderColor
+            height: Theme.currentTheme.appearance.borderWidth
+
+            color: Theme.currentTheme.colors.controlBottomBorderColor
         }
 
-        Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.OutQuart } }
+        Behavior on color { ColorAnimation { duration: Utils.appearanceSpeed; easing.type: Easing.OutQuart } }
+        opacity: flat && !hovered ? 0 : 1
     }
 
-    // Dropdown indicator
-    indicator: Rin.ToolButton {
+    // indicator
+    indicator: ToolButton {
         id: dropIndicator
         flat: true
         width: 32
@@ -66,16 +75,16 @@ ComboBox {
         anchors.right: parent.right
         anchors.margins: 4
         anchors.verticalCenter: parent.verticalCenter
-        iconName: "ic_fluent_chevron_down_20_regular"
-        iconSize: 14
-        iconColor: root.textSecondaryColor
+        icon.name: "ic_fluent_chevron_down_20_regular"
+        size: 14
+        color: Theme.currentTheme.colors.textSecondaryColor
         hoverable: editable
 
         onClicked: menu.open()
     }
 
-    // Clear button (for editable combo box)
-    Rin.ToolButton {
+    // clear button (editable only)
+    ToolButton {
         id: clearButton
         flat: true
         width: 24
@@ -84,9 +93,9 @@ ComboBox {
         anchors.right: dropIndicator.left
         anchors.rightMargin: 4
         anchors.verticalCenter: parent.verticalCenter
-        iconName: "ic_fluent_dismiss_20_regular"
-        iconSize: 14
-        iconColor: root.textSecondaryColor
+        icon.name: "ic_fluent_dismiss_20_regular"
+        size: 14
+        color: Theme.currentTheme.colors.textSecondaryColor
         hoverable: root.editable
         visible: root.editable && root.displayText.length > 0
 
@@ -96,8 +105,7 @@ ComboBox {
         }
     }
 
-    // Content item
-    contentItem: Rin.TextField {
+    contentItem: TextField {
         id: text
         anchors.fill: parent
         text: root.displayText
@@ -105,15 +113,13 @@ ComboBox {
         frameless: true
         placeholderText: root.placeholderText
         clearEnabled: false
-        leftPadding: 12
-        rightPadding: 36
     }
 
-    // Popup menu
-    popup: Rin.ContextMenu {
+    // popup menu
+    popup: ContextMenu {
         id: menu
         width: root.width
-        model: root.model || []
+        model: root.model
         currentIndex: root.currentIndex
 
         function handleItemSelected(index) {
@@ -123,14 +129,14 @@ ComboBox {
         onItemSelected: (index) => handleItemSelected(index)
     }
 
-    // Animations
+    // animations
     Behavior on opacity { NumberAnimation { duration: 150; easing.type: Easing.OutQuart } }
     Behavior on implicitWidth { NumberAnimation { duration: 100; easing.type: Easing.InOutQuart } }
 
-    // States
+    // states
     states: [
         State {
-            name: "disabled"
+        name: "disabled"
             when: !enabled
             PropertyChanges {
                 target: root;
@@ -141,8 +147,12 @@ ComboBox {
             name: "pressed"
             when: pressed
             PropertyChanges {
+                target: root;
+                opacity: 0.7
+            }
+            PropertyChanges {
                 target: background;
-                color: root.controlTertiaryColor
+                color: Theme.currentTheme.colors.controlTertiaryColor
             }
         },
         State {
@@ -151,7 +161,7 @@ ComboBox {
             PropertyChanges {
                 target: background;
                 opacity: 1
-                color: root.controlSecondaryColor
+                color: Theme.currentTheme.colors.controlSecondaryColor
             }
         }
     ]

@@ -1,25 +1,12 @@
 import QtQuick 2.15
 import QtQuick.Controls.Basic 2.15
 import "../../themes"
-import "../../utils"
+import "../../components"
 
 RadioButton {
     id: root
-
-    property var themeColors: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors : null
-    property var themeAppearance: themeManager.currentTheme ? themeManager.currentTheme.appearance : null
-
-    property color primaryColor: themeColors ? themeColors.primaryColor : "#0078D4"
-    property color backgroundColor: themeColors ? themeColors.controlSecondaryColor : Qt.alpha("#F9F9F9", 0.5)
-
-    readonly property color textOnAccentColor: themeColors ? themeColors.textOnAccentColor : "#ffffff"
-    readonly property color disabledColor: themeColors ? themeColors.disabledColor : "#000000"
-    readonly property color controlSecondaryColor: themeColors ? themeColors.controlSecondaryColor : Qt.alpha("#F9F9F9", 0.5)
-    readonly property color controlTertiaryColor: themeColors ? themeColors.controlTertiaryColor : Qt.alpha("#F9F9F9", 0.3)
-    readonly property color controlBorderStrongColor: themeColors ? themeColors.controlBorderStrongColor : Qt.alpha("#000000", 0.6063)
-
-    readonly property int buttonRadius: themeAppearance ? themeAppearance.buttonRadius : 5
-    readonly property int borderWidth: themeAppearance ? themeAppearance.borderWidth : 1
+    property color backgroundColor: Theme.currentTheme.colors.controlSecondaryColor
+    property color primaryColor: Theme.currentTheme.colors.primaryColor
 
     spacing: 8
 
@@ -45,10 +32,10 @@ RadioButton {
 
         radius: width / 2
         color: checked ? primaryColor :
-            hovered ? controlTertiaryColor : backgroundColor
+            hovered ? Theme.currentTheme.colors.controlTertiaryColor : backgroundColor
         // border
-        border.color: checked ? "transparent" : controlBorderStrongColor
-        border.width: borderWidth
+        border.color: checked ? "transparent" : Theme.currentTheme.colors.controlBorderStrongColor
+        border.width: Theme.currentTheme.appearance.borderWidth
 
         Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }
         Behavior on opacity { NumberAnimation { duration: Utils.appearanceSpeed; easing.type: Easing.OutQuart } }
@@ -66,7 +53,7 @@ RadioButton {
 
             anchors.verticalCenter: background.verticalCenter
             radius: height / 2
-            color: checked ? textOnAccentColor : pressed ? textOnAccentColor : "transparent"
+            color: checked ? Theme.currentTheme.colors.textOnAccentColor : pressed ? Theme.currentTheme.colors.textOnAccentColor : "transparent"
 
             Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }
             Behavior on scale { NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint } }
@@ -78,12 +65,12 @@ RadioButton {
     // states
     states: [
         State {
-            name: "disabled"
+        name: "disabled"
             when: !enabled
             PropertyChanges {
                 target: root
                 opacity: 0.4
-                primaryColor: disabledColor
+                primaryColor: Theme.currentTheme.colors.disabledColor
             }
         },
         State {

@@ -1,5 +1,6 @@
 pragma Singleton
 import QtQuick 2.15
+import "../utils" as Utils
 
 Item {
     id: themeManager

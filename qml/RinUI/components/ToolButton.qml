@@ -1,7 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import "../utils" as Utils
-import "../components" as Rin
 
 Button {
     id: toolBtn
@@ -23,7 +22,7 @@ Button {
         implicitWidth: toolBtn.implicitWidth
         implicitHeight: toolBtn.implicitHeight
 
-        Rin.Icon {
+        Icon {
             id: icon
             anchors.centerIn: parent
             size: 20

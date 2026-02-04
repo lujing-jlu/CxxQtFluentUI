@@ -5,8 +5,8 @@ import "../../components"
 
 CheckBox {
     id: root
-    property color backgroundColor: Theme.currentTheme.colors.controlSecondaryColor
-    property color primaryColor: Theme.currentTheme.colors.primaryColor
+    property color backgroundColor: themeManager.currentTheme.colors.controlSecondaryColor
+    property color primaryColor: themeManager.currentTheme.colors.primaryColor
 
     spacing: 8
 
@@ -29,12 +29,12 @@ CheckBox {
         height: 20
         x: root.leftPadding
         y: parent.height / 2 - height / 2
-        radius: Theme.currentTheme.appearance.buttonRadius
+        radius: themeManager.currentTheme.appearance.buttonRadius
         color: checkState !== Qt.Unchecked ? primaryColor :
-            hovered ? Theme.currentTheme.colors.controlTertiaryColor : backgroundColor
+            hovered ? themeManager.currentTheme.colors.controlTertiaryColor : backgroundColor
         // border
-        border.color: checkState !== Qt.Unchecked ? "transparent" : Theme.currentTheme.colors.controlBorderStrongColor
-        border.width: Theme.currentTheme.appearance.borderWidth
+        border.color: checkState !== Qt.Unchecked ? "transparent" : themeManager.currentTheme.colors.controlBorderStrongColor
+        border.width: themeManager.currentTheme.appearance.borderWidth
 
         Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }
         Behavior on opacity { NumberAnimation { duration: Utils.appearanceSpeed; easing.type: Easing.OutQuart } }
@@ -58,7 +58,7 @@ CheckBox {
                     ? "ic_fluent_checkmark_20_filled" :
                     "ic_fluent_subtract_20_regular"
                 size: 12
-                color: Theme.currentTheme.colors.textOnAccentColor
+                color: themeManager.currentTheme.colors.textOnAccentColor
 
                 Behavior on color { ColorAnimation { duration: Utils.appearanceSpeed; easing.type: Easing.OutQuart } }
             }
@@ -75,7 +75,7 @@ CheckBox {
             PropertyChanges {
                 target: root
                 opacity: 0.4
-                primaryColor: Theme.currentTheme.colors.disabledColor
+                primaryColor: themeManager.currentTheme.colors.disabledColor
             }
         },
         State {

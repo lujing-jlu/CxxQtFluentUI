@@ -141,7 +141,7 @@ ControlPage {
                             Rin.Text {
                                 Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                                 typography: Rin.Typography.Caption
-                                color: Theme.currentTheme.colors.textSecondaryColor
+                                color: themeManager.currentTheme.colors.textSecondaryColor
                                 text: modelData.school || ""
                             }
                         ]

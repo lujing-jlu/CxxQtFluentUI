@@ -5,8 +5,8 @@ import "../../components"
 
 RadioButton {
     id: root
-    property color backgroundColor: Theme.currentTheme.colors.controlSecondaryColor
-    property color primaryColor: Theme.currentTheme.colors.primaryColor
+    property color backgroundColor: themeManager.currentTheme.colors.controlSecondaryColor
+    property color primaryColor: themeManager.currentTheme.colors.primaryColor
 
     spacing: 8
 
@@ -32,10 +32,10 @@ RadioButton {
 
         radius: width / 2
         color: checked ? primaryColor :
-            hovered ? Theme.currentTheme.colors.controlTertiaryColor : backgroundColor
+            hovered ? themeManager.currentTheme.colors.controlTertiaryColor : backgroundColor
         // border
-        border.color: checked ? "transparent" : Theme.currentTheme.colors.controlBorderStrongColor
-        border.width: Theme.currentTheme.appearance.borderWidth
+        border.color: checked ? "transparent" : themeManager.currentTheme.colors.controlBorderStrongColor
+        border.width: themeManager.currentTheme.appearance.borderWidth
 
         Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }
         Behavior on opacity { NumberAnimation { duration: Utils.appearanceSpeed; easing.type: Easing.OutQuart } }
@@ -53,7 +53,7 @@ RadioButton {
 
             anchors.verticalCenter: background.verticalCenter
             radius: height / 2
-            color: checked ? Theme.currentTheme.colors.textOnAccentColor : pressed ? Theme.currentTheme.colors.textOnAccentColor : "transparent"
+            color: checked ? themeManager.currentTheme.colors.textOnAccentColor : pressed ? themeManager.currentTheme.colors.textOnAccentColor : "transparent"
 
             Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }
             Behavior on scale { NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint } }
@@ -70,7 +70,7 @@ RadioButton {
             PropertyChanges {
                 target: root
                 opacity: 0.4
-                primaryColor: Theme.currentTheme.colors.disabledColor
+                primaryColor: themeManager.currentTheme.colors.disabledColor
             }
         },
         State {

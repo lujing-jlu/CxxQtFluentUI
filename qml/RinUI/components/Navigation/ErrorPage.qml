@@ -46,7 +46,7 @@ ColumnLayout {
         Layout.alignment: Qt.AlignHCenter
         id: retryButton
         text: qsTr("Retry")
-        isPrimary: true
+        highlighted: true
 
         onClicked: {
             // Signal to reload page - should be handled by parent

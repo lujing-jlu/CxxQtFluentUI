@@ -8,8 +8,8 @@ Switch {
 
     implicitHeight: 20
 
-    property color backgroundColor: Theme.currentTheme.colors.controlSecondaryColor
-    property color primaryColor: Theme.currentTheme.colors.primaryColor
+    property color backgroundColor: themeManager.currentTheme.colors.controlSecondaryColor
+    property color primaryColor: themeManager.currentTheme.colors.primaryColor
     property string checkedText: qsTr("On")
     property string uncheckedText: qsTr("Off")
 
@@ -25,11 +25,11 @@ Switch {
         height: 20
         radius: height / 2
         color: checked ? primaryColor :
-            hovered ? Theme.currentTheme.colors.controlTertiaryColor : backgroundColor
+            hovered ? themeManager.currentTheme.colors.controlTertiaryColor : backgroundColor
 
         // border
-        border.color: checked ? "transparent" : Theme.currentTheme.colors.controlBorderStrongColor
-        border.width: Theme.currentTheme.appearance.borderWidth
+        border.color: checked ? "transparent" : themeManager.currentTheme.colors.controlBorderStrongColor
+        border.width: themeManager.currentTheme.appearance.borderWidth
 
         Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }
     }
@@ -43,7 +43,7 @@ Switch {
 
         anchors.verticalCenter: background.verticalCenter
         radius: height / 2
-        color: checked ? Theme.currentTheme.colors.textOnAccentColor : Theme.currentTheme.colors.controlBorderStrongColor
+        color: checked ? themeManager.currentTheme.colors.textOnAccentColor : themeManager.currentTheme.colors.controlBorderStrongColor
 
         Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuart } }
 
@@ -73,7 +73,7 @@ Switch {
             PropertyChanges {
                 target: root
                 opacity: 0.2169
-                primaryColor: Theme.currentTheme.colors.disabledColor
+                primaryColor: themeManager.currentTheme.colors.disabledColor
             }
         },
         State {

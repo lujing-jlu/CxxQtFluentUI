@@ -10,7 +10,7 @@ TextField {
 
     property bool frameless: false
     property bool editable: true
-    property color primaryColor: Theme.currentTheme.colors.primaryColor
+    property color primaryColor: themeManager.currentTheme.colors.primaryColor
     property bool clearEnabled: true
 
     selectByMouse: true
@@ -37,12 +37,12 @@ TextField {
     background: Rectangle {
         id: background
         anchors.fill: parent
-        radius: Theme.currentTheme.appearance.buttonRadius
-        color: frameless ? "transparent" : Theme.currentTheme.colors.controlColor
+        radius: themeManager.currentTheme.appearance.buttonRadius
+        color: frameless ? "transparent" : themeManager.currentTheme.colors.controlColor
         clip: true
-        border.width: Theme.currentTheme.appearance.borderWidth
-        border.color: frameless ? root.activeFocus ? Theme.currentTheme.colors.controlBorderColor : "transparent" :
-            Theme.currentTheme.colors.controlBorderColor
+        border.width: themeManager.currentTheme.appearance.borderWidth
+        border.color: frameless ? root.activeFocus ? themeManager.currentTheme.colors.controlBorderColor : "transparent" :
+            themeManager.currentTheme.colors.controlBorderColor
 
         // Clipping mask
         layer.enabled: true
@@ -62,8 +62,8 @@ TextField {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             radius: 999
-            height: root.activeFocus ? Theme.currentTheme.appearance.borderWidth * 2 : Theme.currentTheme.appearance.borderWidth
-            color: root.activeFocus ? primaryColor : frameless ? "transparent" : Theme.currentTheme.colors.textControlBorderColor
+            height: root.activeFocus ? themeManager.currentTheme.appearance.borderWidth * 2 : themeManager.currentTheme.appearance.borderWidth
+            color: root.activeFocus ? primaryColor : frameless ? "transparent" : themeManager.currentTheme.colors.textControlBorderColor
 
             Behavior on color { ColorAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint } }
             Behavior on height { NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint } }
@@ -73,12 +73,12 @@ TextField {
     Behavior on opacity { NumberAnimation { duration: Utils.animationSpeed; easing.type: Easing.OutQuint } }
 
     // Font
-    font.pixelSize: Theme.currentTheme.typography.bodySize
+    font.pixelSize: themeManager.currentTheme.typography.bodySize
     font.family: Utils.fontFamily
 
-    selectionColor: Theme.currentTheme.colors.primaryColor
-    color: Theme.currentTheme.colors.textColor
-    placeholderTextColor: Theme.currentTheme.colors.textSecondaryColor
+    selectionColor: themeManager.currentTheme.colors.primaryColor
+    color: themeManager.currentTheme.colors.textColor
+    placeholderTextColor: themeManager.currentTheme.colors.textSecondaryColor
 
     leftPadding: 12
     rightPadding: (clearEnabled && clearBtn.visible ? 28 : 12)
@@ -102,9 +102,9 @@ TextField {
         contentItem: Icon {
             name: "ic_fluent_dismiss_20_regular"
             size: 14
-            color: Theme.currentTheme.colors.textTertialyColor
+            color: themeManager.currentTheme.colors.textTertialyColor
         }
-        radius: Theme.currentTheme.appearance.smallRadius
+        radius: themeManager.currentTheme.appearance.smallRadius
     }
 
     // States
@@ -122,7 +122,7 @@ TextField {
             when: activeFocus
             PropertyChanges {
                 target: background;
-                color: Theme.currentTheme.colors.controlInputActiveColor
+                color: themeManager.currentTheme.colors.controlInputActiveColor
             }
         },
         State {
@@ -130,7 +130,7 @@ TextField {
             when: hovered
             PropertyChanges {
                 target: background;
-                color: Theme.currentTheme.colors.controlSecondaryColor
+                color: themeManager.currentTheme.colors.controlSecondaryColor
             }
         }
     ]

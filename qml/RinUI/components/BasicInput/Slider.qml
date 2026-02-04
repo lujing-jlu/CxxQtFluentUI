@@ -6,14 +6,14 @@ import "../../components"
 Slider {
     id: root
     // size properties
-    property real handleSize: Theme.currentTheme.appearance.sliderHandleSize
+    property real handleSize: themeManager.currentTheme.appearance.sliderHandleSize
     property real borderWidth: 3
     property int ticksPadding: 4
     property real trackHeight: 4
     property bool showTooltip: true
     property bool tickmarks: false
     property real tickFrequency: 0
-    property color primaryColor: Theme.currentTheme.colors.primaryColor
+    property color primaryColor: themeManager.currentTheme.colors.primaryColor
 
     // accessibility
     FocusIndicator {
@@ -33,7 +33,7 @@ Slider {
         width: root.orientation === Qt.Horizontal ? parent.width - handle.width : trackHeight
         height: root.orientation === Qt.Horizontal ? trackHeight : parent.height - handle.width
         radius: 99
-        color: Theme.currentTheme.colors.controlStrongColor
+        color: themeManager.currentTheme.colors.controlStrongColor
 
         Behavior on color {
             ColorAnimation {
@@ -48,7 +48,7 @@ Slider {
             height: root.orientation === Qt.Horizontal ? trackHeight : (1 - root.visualPosition) * parent.height
             anchors.bottom: root.orientation === Qt.Vertical ? parent.bottom : undefined
             radius: 99
-            color: Theme.currentTheme.colors.primaryColor
+            color: themeManager.currentTheme.colors.primaryColor
 
             Behavior on width {
                 NumberAnimation {
@@ -86,7 +86,7 @@ Slider {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: root.orientation === Qt.Horizontal ? 1 : 4
                     height: root.orientation === Qt.Horizontal ? 4 : 1
-                    color: Theme.currentTheme.colors.controlStrongColor
+                    color: themeManager.currentTheme.colors.controlStrongColor
 
                     visible: root.tickmarks && index !== 0 && index !== ((to - from) / stepSize)
                 }
@@ -128,7 +128,7 @@ Slider {
         Rectangle {
             anchors.fill: parent
             radius: width / 2
-            color: Theme.currentTheme.colors.controlQuaternaryColor
+            color: themeManager.currentTheme.colors.controlQuaternaryColor
         }
 
         // middle border
@@ -137,7 +137,7 @@ Slider {
             width: handleSize
             height: handleSize
             radius: width / 2
-            color: Theme.currentTheme.colors.controlSolidColor
+            color: themeManager.currentTheme.colors.controlSolidColor
 
             Behavior on color {
                 ColorAnimation {
@@ -157,8 +157,8 @@ Slider {
 
             scale: root.pressed ? 0.83 :
                 handle.hovered ? 1.16 : 1.0
-            color: root.pressed ? Qt.alpha(Theme.currentTheme.colors.primaryColor, 0.8) :
-                handle.hovered ? Qt.alpha(Theme.currentTheme.colors.primaryColor, 0.9) : Theme.currentTheme.colors.primaryColor
+            color: root.pressed ? Qt.alpha(themeManager.currentTheme.colors.primaryColor, 0.8) :
+                handle.hovered ? Qt.alpha(themeManager.currentTheme.colors.primaryColor, 0.9) : themeManager.currentTheme.colors.primaryColor
 
             Behavior on color {
                 ColorAnimation {
@@ -195,7 +195,7 @@ Slider {
             when: !root.enabled
             PropertyChanges {
                 target: handle
-                color: Theme.currentTheme.colors.textDisabled
+                color: themeManager.currentTheme.colors.textDisabled
                 opacity: 0.6
             }
         }

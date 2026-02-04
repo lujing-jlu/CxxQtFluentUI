@@ -131,7 +131,7 @@ Rectangle {
         // 操作按钮
         Rin.Button {
             text: qsTr("Open")
-            isFlat: true
+            flat: true
             enabled: !!root.navigationView
             onClicked: {
                 if (root.navigationView && root.page) {

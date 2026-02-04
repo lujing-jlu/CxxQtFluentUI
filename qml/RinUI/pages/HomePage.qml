@@ -58,7 +58,7 @@ FluentPage {
 
                         Rin.Button {
                             text: qsTr("Get Started")
-                            isPrimary: true
+                            highlighted: true
                             onClicked: {
                                 if (root.navigationView) root.navigationView.push("AllSamplesPage")
                             }
@@ -66,7 +66,7 @@ FluentPage {
 
                         Rin.Button {
                             text: qsTr("All Samples")
-                            isFlat: true
+                            flat: true
                             onClicked: {
                                 if (root.navigationView) root.navigationView.push("AllSamplesPage")
                             }

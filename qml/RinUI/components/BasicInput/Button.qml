@@ -7,11 +7,11 @@ import "../../components"
 
 Button {
     id: root
-    property color primaryColor: Theme.currentTheme.colors.primaryColor
-    property color textColor: Theme.currentTheme.colors.textColor
+    property color primaryColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.primaryColor : "#0078D4"
+    property color textColor: themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.textColor : "#1b1b1b"
     property alias color: root.backgroundColor
-    property color backgroundColor: flat ? Theme.currentTheme.colors.subtleSecondaryColor :
-        highlighted ? primaryColor : Theme.currentTheme.colors.controlColor
+    property color backgroundColor: flat ? themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.subtleSecondaryColor : "#f3f3f3" :
+        highlighted ? primaryColor : (themeManager.currentTheme && themeManager.currentTheme.colors ? themeManager.currentTheme.colors.controlColor : "#ffffff")
     property alias radius: background.radius
 
     property bool hoverable: true  // 是否可悬停
@@ -19,7 +19,7 @@ Button {
     property string suffixIconName: ""  // 后缀图标
 
     readonly property color hoverColor: !highlighted && !flat
-        ? Theme.currentTheme.colors.controlSecondaryColor : backgroundColor
+        ? themeManager.currentTheme.colors.controlSecondaryColor : backgroundColor
     icon.width: font.pixelSize * 1.3
     icon.height: font.pixelSize * 1.3
 
@@ -39,12 +39,12 @@ Button {
         id: background
         anchors.fill: parent
         color: hovered ? hoverColor : backgroundColor
-        radius: Theme.currentTheme.appearance.buttonRadius
+        radius: themeManager.currentTheme.appearance.buttonRadius
 
-        border.width: Theme.currentTheme.appearance.borderWidth  // 边框宽度 / Border Width
+        border.width: themeManager.currentTheme.appearance.borderWidth  // 边框宽度 / Border Width
         border.color: flat ? "transparent" :
-            enabled ? highlighted ? primaryColor : Theme.currentTheme.colors.controlBorderColor :
-            highlighted ? Theme.currentTheme.colors.disabledColor : Theme.currentTheme.colors.controlBorderColor
+            enabled ? highlighted ? primaryColor : themeManager.currentTheme.colors.controlBorderColor :
+            highlighted ? themeManager.currentTheme.colors.disabledColor : themeManager.currentTheme.colors.controlBorderColor
 
         // 裁切
         layer.enabled: true
@@ -63,11 +63,11 @@ Button {
             width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
-            height: Theme.currentTheme.appearance.borderWidth
+            height: themeManager.currentTheme.appearance.borderWidth
 
             color: flat ? "transparent" :
-                enabled ? highlighted ? Theme.currentTheme.colors.controlAccentBottomBorderColor
-                        : Theme.currentTheme.colors.controlBottomBorderColor
+                enabled ? highlighted ? themeManager.currentTheme.colors.controlAccentBottomBorderColor
+                        : themeManager.currentTheme.colors.controlBottomBorderColor
                     : "transparent"
         }
 
@@ -98,25 +98,25 @@ Button {
                     if (icon.color) return icon.color
                     if (!enabled) {
                         return flat
-                            ? Theme.currentTheme.colors.disabledColor
+                            ? themeManager.currentTheme.colors.disabledColor
                             : (highlighted
-                                ? Theme.currentTheme.colors.textOnAccentColor
-                                : Theme.currentTheme.colors.textColor)
+                                ? themeManager.currentTheme.colors.textOnAccentColor
+                                : themeManager.currentTheme.colors.textColor)
                     }
                     if (highlighted) {
                         return flat
-                            ? Theme.currentTheme.colors.textAccentColor
-                            : Theme.currentTheme.colors.textOnAccentColor
+                            ? themeManager.currentTheme.colors.textAccentColor
+                            : themeManager.currentTheme.colors.textOnAccentColor
                     }
-                    return Theme.currentTheme.colors.textColor
+                    return themeManager.currentTheme.colors.textColor
                 }
             }
             Text {
                 id: text
                 typography: Typography.Body
                 text: root.text
-                color: highlighted ? flat ? Theme.currentTheme.colors.textAccentColor :
-                    Theme.currentTheme.colors.textOnAccentColor : Theme.currentTheme.colors.textColor
+                color: highlighted ? flat ? themeManager.currentTheme.colors.textAccentColor :
+                    themeManager.currentTheme.colors.textOnAccentColor : themeManager.currentTheme.colors.textColor
             }
             // 后缀图标
             IconWidget {
@@ -124,7 +124,7 @@ Button {
                 size: 12
                 height: parent.height
                 icon: root.suffixIconName
-                color: Theme.currentTheme.colors.textSecondaryColor
+                color: themeManager.currentTheme.colors.textSecondaryColor
                 visible: root.suffixIconName !== ""
             }
         }
@@ -141,16 +141,16 @@ Button {
                 target: root
                 opacity: 0.65
                 backgroundColor: highlighted
-                    ? Theme.currentTheme.colors.disabledColor
-                    : Theme.currentTheme.colors.controlColor
+                    ? themeManager.currentTheme.colors.disabledColor
+                    : themeManager.currentTheme.colors.controlColor
             }
             PropertyChanges {
                 target: text
                 color: flat
-                    ? Theme.currentTheme.colors.disabledColor
+                    ? themeManager.currentTheme.colors.disabledColor
                     : (highlighted
-                        ? Theme.currentTheme.colors.textOnAccentColor
-                        : Theme.currentTheme.colors.textColor)
+                        ? themeManager.currentTheme.colors.textOnAccentColor
+                        : themeManager.currentTheme.colors.textColor)
             }
         },
         State {
@@ -159,7 +159,7 @@ Button {
             PropertyChanges {
                 target: root;
                 opacity: !highlighted && !flat ? 0.7 : 0.65
-                backgroundColor:  !highlighted && !flat ? Theme.currentTheme.colors.controlTertiaryColor : backgroundColor
+                backgroundColor:  !highlighted && !flat ? themeManager.currentTheme.colors.controlTertiaryColor : backgroundColor
             }
         },
         State {

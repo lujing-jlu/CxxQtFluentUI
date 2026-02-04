@@ -8,7 +8,7 @@ ComboBox {
     id: root
 
     // properties
-    property real controlRadius: Theme.currentTheme.appearance.buttonRadius
+    property real controlRadius: themeManager.currentTheme.appearance.buttonRadius
     property string placeholderText: ""
     property alias maximumHeight: menu.maximumHeight
     property string headerText: ""
@@ -33,11 +33,11 @@ ComboBox {
     background: Rectangle {
         id: background
         anchors.fill: parent
-        color: Theme.currentTheme.colors.controlColor
-        radius: Theme.currentTheme.appearance.buttonRadius
+        color: themeManager.currentTheme.colors.controlColor
+        radius: themeManager.currentTheme.appearance.buttonRadius
 
-        border.width: Theme.currentTheme.appearance.borderWidth
-        border.color: Theme.currentTheme.colors.controlBorderColor
+        border.width: themeManager.currentTheme.appearance.borderWidth
+        border.color: themeManager.currentTheme.colors.controlBorderColor
 
         // clipping mask
         layer.enabled: true
@@ -56,9 +56,9 @@ ComboBox {
             width: parent.width
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
-            height: Theme.currentTheme.appearance.borderWidth
+            height: themeManager.currentTheme.appearance.borderWidth
 
-            color: Theme.currentTheme.colors.controlBottomBorderColor
+            color: themeManager.currentTheme.colors.controlBottomBorderColor
         }
 
         Behavior on color { ColorAnimation { duration: Utils.appearanceSpeed; easing.type: Easing.OutQuart } }
@@ -77,7 +77,7 @@ ComboBox {
         anchors.verticalCenter: parent.verticalCenter
         icon.name: "ic_fluent_chevron_down_20_regular"
         size: 14
-        color: Theme.currentTheme.colors.textSecondaryColor
+        color: themeManager.currentTheme.colors.textSecondaryColor
         hoverable: editable
 
         onClicked: menu.open()
@@ -95,7 +95,7 @@ ComboBox {
         anchors.verticalCenter: parent.verticalCenter
         icon.name: "ic_fluent_dismiss_20_regular"
         size: 14
-        color: Theme.currentTheme.colors.textSecondaryColor
+        color: themeManager.currentTheme.colors.textSecondaryColor
         hoverable: root.editable
         visible: root.editable && root.displayText.length > 0
 
@@ -152,7 +152,7 @@ ComboBox {
             }
             PropertyChanges {
                 target: background;
-                color: Theme.currentTheme.colors.controlTertiaryColor
+                color: themeManager.currentTheme.colors.controlTertiaryColor
             }
         },
         State {
@@ -161,7 +161,7 @@ ComboBox {
             PropertyChanges {
                 target: background;
                 opacity: 1
-                color: Theme.currentTheme.colors.controlSecondaryColor
+                color: themeManager.currentTheme.colors.controlSecondaryColor
             }
         }
     ]

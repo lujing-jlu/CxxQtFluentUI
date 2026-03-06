@@ -2,6 +2,8 @@
 
 Rust + CXX-Qt demo app shipping a Fluent-like QML component library (based on the Rin-UI gallery structure).
 
+![Screenshot](./screenshot.png)
+
 ## Run
 - `cargo run`
 - Run a specific page directly: `cargo run -- ListViewPage`
